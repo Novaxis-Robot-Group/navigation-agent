@@ -1,0 +1,48 @@
+# Local environments, caches, weights and experiment output
+.venv/
+.conda/
+.runtime/
+runs/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.env.*
+!.env.example
+*.log
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.pem
+id_ed25519*
+.DS_Store
+
+# Personal agent instructions, skills and delivery bookkeeping
+/personal-rules.md
+.agents/*
+!.agents/skills/
+.agents/skills/*
+!.agents/skills/publish-github/
+!.agents/skills/navigation-agent-review/
+skills-lock.json
+delivery-history.md
+
+# Deployment-specific configuration copies
+configs/local/
+deploy/local/
+deploy/local.env
+
+# Experiment data and generated artifacts
+experiments/**/datasets/
+experiments/**/manifests/
+experiments/**/reports/
+experiments/**/runtime/
+
+experiments/**/local.toml
+
+# Python 独立交付构建产物
+/build/
+/dist/
+/src/*.egg-info/
+/*.egg-info/

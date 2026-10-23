@@ -1,0 +1,39 @@
+# 模块组合与连接地址；密钥仍放 deploy/.env 或进程环境变量。
+[robot]
+backend = "mujoco"
+base_url = "http://127.0.0.1:8088"
+
+[vln]
+backend = "lightnav"
+server_url = "ws://127.0.0.1:8053"
+
+# 可选 YOLO 服务；当前已启用。关闭时将 server_url 设为空字符串。
+[target_watch]
+server_url = "http://127.0.0.1:18060"
+
+# 持续导航到模型停止或执行异常；任务总预算仍然有效。
+[navigation]
+time_limit_enabled = false
+# 连续静止满 15 秒时返回 no_progress，正常行进不会被该时限截断。
+inactivity_timeout_s = 15.0
+
+[service]
+host = "127.0.0.1"
+port = 8092
+
+[ui.task_defaults]
+max_steps = 300
+max_seconds = 600
+
+[simulation]
+host = "127.0.0.1"
+port = 8088
+agent_url = "http://127.0.0.1:8092"
+# 虚拟相机离地高度；不改变车身与碰撞包络。
+camera_height_m = 0.8
+
+# 可选双视角录像；当前已启用，make mujoco-setup 会准备 GStreamer，详见 docs/zh/replay.md。
+[simulation.recording]
+enabled = true
+directory = "../runs/mujoco-recordings"
+fps = 10

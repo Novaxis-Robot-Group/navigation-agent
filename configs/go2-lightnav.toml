@@ -1,0 +1,61 @@
+# 默认使用隧道：robot.base_url 由 Agent 访问，vln.server_url 由 Go2 本体访问。
+# 直接联网时分别填写实际可达地址；隧道准备见 docs/zh/go2.md。
+[robot]
+backend = "go2"
+base_url = "http://127.0.0.1:18088"
+look_angle_deg = 70
+look_tolerance_deg = 10
+look_angular_min_rad_s = 0.2
+look_angular_max_rad_s = 0.4
+look_timeout_s = 8.0
+look_stall_s = 2.5
+look_gain = 1.5
+look_progress_deg = 1.0
+motion_settings_file = "../.runtime/go2-motion.json"
+
+[vln]
+backend = "lightnav"
+server_url = "ws://127.0.0.1:8053"
+# 首次有效推理结果前的服务错误：含首次，共最多 3 次。
+max_attempts = 3
+
+[service]
+host = "127.0.0.1"
+port = 8090
+
+[ui.task_defaults]
+max_steps = 300
+max_seconds = 600
+
+[navigation]
+time_limit_enabled = false
+inactivity_timeout_s = 15.0
+
+[target_watch]
+server_url = "http://127.0.0.1:18060"
+
+[recording]
+enabled = true
+directory = "../runs/go2/recordings"
+fps = 10
+
+# Agent 侧停车、观测与导航保护；不代表本体具备自定义禁区围栏。
+[protection]
+command_timeout_s = 5.0
+odom_max_age_s = 0.8
+stationary_linear = 0.03
+stationary_angular = 0.05
+settle_s = 0.3
+settle_timeout_s = 5.0
+observation_timeout_s = 5.0
+camera_max_age_ms = 1000.0
+odom_match_ms = 150.0
+blocked_timeout_s = 2.0
+stall_window_s = 3.0
+stall_distance_m = 0.08
+stall_turn_deg = 180.0
+
+# 仅此部署启用办公场景提示词及其结构化校验。
+[prompt]
+path = "prompts/go2-office.md"
+navigation_policy = "go2_office"

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>任务录像回放 · Navigation Agent</title>
+<link rel="stylesheet" href="/replay-static/replay.css?v=1">
+<script src="/replay-static/replay.js?v=3" defer></script>
+<main>
+<header><a href="/">← 探索工作台</a><p class="eyebrow" id="replay-kind">NAV / AGENT · REPLAY</p><h1 id="goal">任务回放</h1>
+<p id="summary"></p><nav><a id="logs" target="_blank" rel="noopener">任务摘要 ↗</a></nav></header>
+<p id="notice" role="status">正在读取录像与时间线…</p>
+<div class="layout"><section class="panel player">
+<div class="toolbar"><label>视角 <select id="view"><option value="first">第一视角</option><option value="third">第三视角</option></select></label><span id="mode"></span></div>
+<div class="screen"><video id="video" muted playsinline preload="metadata" hidden></video><img id="image" alt="当时的观察画面" hidden><p id="empty">暂无画面</p><div id="caption"></div></div>
+<div class="controls"><button id="previous" title="上一个事件">上一节点</button><button id="play" disabled>播放</button><button id="next" title="下一个事件">下一节点</button><output id="time">00:00.0</output><label>倍速 <select id="speed"><option>0.5</option><option selected>1</option><option>2</option><option>4</option></select></label></div>
+<input id="seek" type="range" min="0" max="0" step="0.01" value="0" aria-label="任务时间轴">
+<div id="markers" aria-label="关键时间节点"></div>
+<p id="frame-note" class="muted"></p>
+<div class="trajectory-heading"><h2>实际行走轨迹</h2><span class="muted">位置单位：米 · 箭头表示朝向</span></div>
+<canvas id="trajectory" width="800" height="300" aria-label="根据记录位姿绘制的实际轨迹"></canvas>
+<div class="downloads"><a id="download" hidden download>下载当前视角 MP4</a><a id="subtitles" hidden download>导出事件字幕 VTT</a><button id="refresh">刷新记录</button></div>
+<p class="muted">MP4 保留录制帧序；任务时间与视频时间按原始采图时间映射。缺帧不会伪造画面，官网可将事件字幕作为单独字幕轨加载。</p>
+</section><aside class="panel"><div class="toolbar"><h2 id="events-heading">关键节点</h2></div><p class="muted">点击节点定位；“看动作执行”从动作开始播放。</p><ol id="events"></ol></aside></div>
+</main>
+</html>

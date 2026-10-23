@@ -1,0 +1,202 @@
+--- a/src/lightnav/inference/policies.py
++++ b/src/lightnav/inference/policies.py
+@@ -39,6 +39,9 @@
+         self._sf_buffer: torch.Tensor | None = None
+         self._history: list[Any] = []
+         self._history_frame_ids: list[int] = []
++        self._history_capture_times: list[float] = []
++        self._capture_origin_ns: int | None = None
++        self._last_capture_stamp_ns: int | None = None
+         self._video_buffer: torch.Tensor | None = None
+         self._buffer_len: int = 0
+         self._write_pos: int = 0
+@@ -82,6 +85,9 @@
+     def reset(self, instruction: str = ""):
+         self._history.clear()
+         self._history_frame_ids.clear()
++        self._history_capture_times.clear()
++        self._capture_origin_ns = None
++        self._last_capture_stamp_ns = None
+         self._sf_buffer = None
+         self._video_buffer = None
+         self._buffer_len = 0
+@@ -103,8 +109,24 @@
+         """
+         return rgb_frame_to_model_tensor(rgb_frame, self._resolve_video_size(rgb_frame))
+ 
+-    def observe(self, rgb_frame) -> None:
++    def observe(self, rgb_frame, *, capture_stamp_ns: int | None = None) -> None:
+         """Add a frame to history without running inference."""
++        # 时间与帧 ID 分开保存，避免改变稀疏历史采样和视觉缓存键。
++        if capture_stamp_ns is not None:
++            if (isinstance(capture_stamp_ns, bool) or not isinstance(capture_stamp_ns, int)
++                    or capture_stamp_ns <= 0):
++                raise ValueError("capture_stamp_ns must be a positive integer")
++            if self._next_frame_id and self._capture_origin_ns is None:
++                raise ValueError("capture timestamps cannot start mid-session")
++            if (self._last_capture_stamp_ns is not None
++                    and capture_stamp_ns <= self._last_capture_stamp_ns):
++                raise ValueError("capture timestamps must increase")
++            if self._capture_origin_ns is None:
++                self._capture_origin_ns = capture_stamp_ns
++            self._last_capture_stamp_ns = capture_stamp_ns
++            self._history_capture_times.append((capture_stamp_ns - self._capture_origin_ns) / 1e9)
++        elif self._capture_origin_ns is not None:
++            raise ValueError("capture timestamp missing in timestamped session")
+         self._history.append(rgb_frame.copy())
+         self._history_frame_ids.append(self._next_frame_id)
+         self._next_frame_id += 1
+@@ -143,6 +165,7 @@
+             if len(self._history) > self.num_history_frames:
+                 self._history = self._history[-self.num_history_frames :]
+                 self._history_frame_ids = self._history_frame_ids[-self.num_history_frames :]
++                self._history_capture_times = self._history_capture_times[-self.num_history_frames :]
+ 
+     def _get_video_tensor(self) -> torch.Tensor:
+         """Return the current video frames in chronological order."""
+--- a/src/lightnav/serving/ws_server.py
++++ b/src/lightnav/serving/ws_server.py
+@@ -238,6 +238,9 @@
+         "timings_ms": dict(getattr(pred, "timings_ms", {}) or {}),
+         "raw_text": _bounded_raw_text(raw_text),
+     }
++    if getattr(session, "_last_capture_stamp_ns", None) is not None:
++        data["capture_stamp_ns"] = session._last_capture_stamp_ns
++        data["history_elapsed_s"] = session._history_capture_times[-1]
+     # Pixels in the frame THIS request carried, so the client can place a marker
+     # without knowing the token encoding or what the server resized to. Absent for
+     # checkpoints that emit no pointing tokens.
+@@ -373,7 +376,10 @@
+                         logger.info(
+                             "[%s] client login: %s client_id=%s", SERVER_LOG_TAG, addr, client_id or "-"
+                         )
+-                        await send_response({"action": "login", "data": {"rc": 0, "msg": "ok"}})
++                        login_data = {"rc": 0, "msg": "ok"}
++                        if data.get("capture_timestamps") is True:
++                            login_data["capture_timestamps"] = True
++                        await send_response({"action": "login", "data": login_data})
+ 
+                     elif action == "reset":
+                         ensure_session().reset(instruction="")
+@@ -398,7 +404,10 @@
+                         except Exception as exc:
+                             raise _RequestDispatchError(f"bad image: {exc}") from exc
+                         # The frame is buffered even when there is nothing to predict yet.
+-                        current_session.observe(rgb)
++                        if "capture_stamp_ns" in data:
++                            current_session.observe(rgb, capture_stamp_ns=data["capture_stamp_ns"])
++                        else:
++                            current_session.observe(rgb)
+                         if not instruction:
+                             await send_response(
+                                 {"action": "next", "data": {"rc": 0, "seq": seq, "msg": "image received"}}
+--- a/src/lightnav/serving/tracking_service.py
++++ b/src/lightnav/serving/tracking_service.py
+@@ -107,8 +107,17 @@
+         video = session._get_video_tensor()
+         frame_ids = list(session._history_frame_ids)
+         if self.serve_task == "vln":
+-            return build_vln_traj_sample(video, session.instruction, frame_ids, self.bundle)
+-        return build_tracking_sample(video, session.instruction, frame_ids, self.bundle)
++            sample = build_vln_traj_sample(video, session.instruction, frame_ids, self.bundle)
++        else:
++            sample = build_tracking_sample(video, session.instruction, frame_ids, self.bundle)
++        times = getattr(session, "_history_capture_times", None)
++        if times:
++            by_id = dict(zip(frame_ids, times, strict=True))
++            sample["video_capture_times_s"] = [
++                [by_id[index] for index in segment["frame_indices"]]
++                for segment in sample["video_segments"]
++            ]
++        return sample
+ 
+     def _infer_batch(self, requests: list[_PredictRequest]) -> list[TrackingPrediction | BaseException]:
+         """Runs in the scheduler's executor thread.
+@@ -134,14 +143,19 @@
+             texts: list[str] = []
+             for s in sessions:
+                 t_gen = time.monotonic()
+-                text, _ = self.engine.generate_from_frames(
+-                    s._get_video_tensor(),
+-                    s.instruction,
+-                    predict_horizon=1,
+-                    frame_ids=list(s._history_frame_ids),
+-                    max_new_tokens=self.max_new_tokens,
+-                    task_type=task_type,
+-                )
++                if getattr(s, "_history_capture_times", None):
++                    text, _ = self.engine.generate(
++                        self._build_sample_for_session(s), max_new_tokens=self.max_new_tokens,
++                    )
++                else:
++                    text, _ = self.engine.generate_from_frames(
++                        s._get_video_tensor(),
++                        s.instruction,
++                        predict_horizon=1,
++                        frame_ids=list(s._history_frame_ids),
++                        max_new_tokens=self.max_new_tokens,
++                        task_type=task_type,
++                    )
+                 llm_ms_list.append((time.monotonic() - t_gen) * 1000.0)
+                 texts.append(text)
+                 passthrough.append({})
+--- a/src/lightnav/data_processor.py
++++ b/src/lightnav/data_processor.py
+@@ -408,6 +408,8 @@
+         metadata_kwargs = {"video_metadata": video_metadata} if video_metadata is not None else {}
+         if selective_tubelet_mask is not None:
+             metadata_kwargs["selective_tubelet_mask"] = selective_tubelet_mask
++        if sample.get("video_capture_times_s") is not None:
++            metadata_kwargs["video_capture_times_s"] = sample["video_capture_times_s"]
+         result = self.processor(
+             text=rendered_text,
+             videos=videos,
+--- a/src/lightnav/processing.py
++++ b/src/lightnav/processing.py
+@@ -282,7 +282,9 @@
+     calculation.
+     """
+ 
+-    def _calculate_timestamps(self, indices, video_fps, merge_size: int = 2):
++    def _calculate_timestamps(
++        self, indices, video_fps, merge_size: int = 2, *, times_s=None, reference_s=None,
++    ):
+         """Per-temporal-patch timestamps rendered as ``<X.X seconds>`` prefixes.
+ 
+         Default (absolute) is byte-identical to the parent / every existing
+@@ -295,6 +297,17 @@
+         bridges the checkpoint's recorded mode into this env var. The
+         ``<X.X seconds>`` render format is unchanged either way.
+         """
++        if times_s is not None:
++            indices = list(times_s)
++            if not indices or not all(math.isfinite(t) and t >= 0 for t in indices):
++                raise ValueError("capture times must be finite non-negative seconds")
++            if len(indices) % merge_size:
++                indices.extend([indices[-1]] * (merge_size - len(indices) % merge_size))
++            relative = os.environ.get("VLN_TIMESTAMP_RELATIVE", "0").lower() in ("1", "true", "yes")
++            ref = max(indices) if reference_s is None else reference_s
++            secs = [ref - t for t in indices] if relative else indices
++            return [(secs[i] + secs[i + merge_size - 1]) / 2
++                    for i in range(0, len(secs), merge_size)]
+         if not isinstance(indices, list):
+             indices = indices.tolist()
+         if len(indices) % merge_size != 0:
+@@ -372,6 +385,8 @@
+         pool_stage = kwargs.pop("video_pool_stage", "pre_vit")
+         selective_tubelet_mask = kwargs.pop("selective_tubelet_mask", None)
+ 
++        capture_times = kwargs.pop("video_capture_times_s", None)
++        capture_reference = max((max(times) for times in capture_times), default=None) if capture_times else None
+         output_kwargs = self._merge_kwargs(
+             Qwen3VLProcessorKwargs,
+             tokenizer_init_kwargs=self.tokenizer.init_kwargs,
+@@ -554,6 +569,8 @@
+                         metadata.frames_indices,
+                         metadata.fps,
+                         temporal_merge,
++                        times_s=capture_times[index] if capture_times is not None else None,
++                        reference_s=capture_reference,
+                     )
+ 
+                     video_placeholder = ""

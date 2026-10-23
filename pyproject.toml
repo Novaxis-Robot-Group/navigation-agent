@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "navigation-agent"
+version = "0.1.0"
+description = "Robot navigation agent with injectable execution backends"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.11"
+dependencies = ["aiohttp>=3.10,<4", "pydantic>=2.7,<3", "rich>=13.9,<15"]
+
+[project.optional-dependencies]
+detector = ["fastapi>=0.115,<1", "uvicorn>=0.52,<0.53", "ultralytics==8.4.175", "lap==0.5.13", "clip @ git+https://github.com/ultralytics/CLIP.git@7ffa84b3bfa40c42ecc1c77147a855e69cb2dd40"]
+service = ["fastapi>=0.115,<1", "uvicorn>=0.52,<0.53"]
+
+[project.scripts]
+navigation-agent = "navigation_agent.app.agent.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["navigation_agent", "navigation_agent.agent*", "navigation_agent.contracts*", "navigation_agent.app", "navigation_agent.app.agent*", "navigation_agent.app.detector*"]
+
+[tool.setuptools]
+include-package-data = false

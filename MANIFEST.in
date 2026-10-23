@@ -1,0 +1,4 @@
+include configs/agent.toml
+include configs/prompts/common.md
+include configs/prompts/scheduling.md
+include configs/prompts/go2-office.md

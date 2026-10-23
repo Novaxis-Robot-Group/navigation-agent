@@ -1,0 +1,492 @@
+{
+  "cases": {
+    "test_observe_look_navigate_then_verify_finish": {
+      "requests": [
+        "d247b40f4e641918e1ab6176bdbf896b3558f3efca95134bb5cfcdd2e7f4747f",
+        "3b9d88d11f971c480c840a28ca94e435338bd0fc88b385ec337765be67021051",
+        "da33cdd7dd66101b8407842db68bf7746bacbbb181747aa931112dcbcf76d65f"
+      ],
+      "actions": [
+        [
+          "look",
+          "left"
+        ],
+        [
+          "navigate",
+          "Walk straight toward the doorway on your left and stop."
+        ]
+      ],
+      "events": "9a17df29cc9dc09dff450dc1b74eeff56e05ff891fcc1cf23843fb9874f8767f",
+      "state": "01daa579d968445b93a9fa9555d2d490d3f36c48d60cfbaf27a0b54fd09c05ee",
+      "result": {
+        "status": "completed",
+        "summary": "新画面中可见棕色沙发",
+        "step": 3,
+        "last_decision": {
+          "action": "finish",
+          "reason": "找到",
+          "instruction": "",
+          "evidence": "新画面中可见棕色沙发",
+          "scene": {
+            "landmarks": [],
+            "visible_ground": "",
+            "occluded": [],
+            "target_seen": "uncertain",
+            "place_label": "",
+            "objects": []
+          },
+          "candidates": []
+        },
+        "last_result": {
+          "reason": "model_stop",
+          "candidate_id": "C1"
+        },
+        "exploration_result": {
+          "session_id": "S1",
+          "reason": "finish",
+          "selected_view_id": null,
+          "last_action": {
+            "action": "navigate",
+            "candidate_id": "C1",
+            "view_id": null,
+            "result": {
+              "reason": "model_stop",
+              "candidate_id": "C1"
+            }
+          },
+          "directions": [
+            {
+              "id": "S1V1",
+              "heading_deg": 0.0,
+              "candidates": [
+                {
+                  "id": "C1",
+                  "place_id": "P1",
+                  "attempt_count": 0,
+                  "failed_attempts": 0,
+                  "status": "untried",
+                  "kind": "target",
+                  "description": "开放门洞",
+                  "evidence": "可见门后地面",
+                  "expected_new_view": "门框后方尚未观察的走廊",
+                  "last_seen_step": 2,
+                  "view_id": "S1V1",
+                  "source": "model_visual_report"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "test_invalid_cloud_action_never_moves": {
+      "requests": [
+        "d247b40f4e641918e1ab6176bdbf896b3558f3efca95134bb5cfcdd2e7f4747f",
+        "43ea7f7b34cc686d4f71a8d24af9f71579e87193da8e7cb19f1629c45560a74c"
+      ],
+      "actions": [],
+      "events": "4022fa8d455946654f7cd864b331ca5a2920494ed47b688cc30bb3b08b31f4a8",
+      "state": "79ffb46499f0ab064e096b3f741d4c54e14b2ab9453f828d8a3de5b8816ff708",
+      "result": {
+        "status": "failed",
+        "summary": "模型回答未通过校验（共 2 次）：action: Input should be 'look', 'orient', 'navigate', 'recover', 'finish', 'give_up' or 'watch_target'",
+        "step": 1,
+        "last_decision": null,
+        "last_result": null,
+        "exploration_result": null
+      }
+    },
+    "test_navigation_stop_does_not_complete_task": {
+      "requests": [
+        "d247b40f4e641918e1ab6176bdbf896b3558f3efca95134bb5cfcdd2e7f4747f"
+      ],
+      "actions": [
+        [
+          "navigate",
+          "Walk straight toward the doorway ahead and stop."
+        ]
+      ],
+      "events": "148f78f5a89cc3db4911617688dda1194ea165610e0253a13e4c836a46938f39",
+      "state": "42a7c21bec7078db3d859fbca92d79df7c99607bb924839ce748c0997debd721",
+      "result": {
+        "status": "budget_exhausted",
+        "summary": "Maximum decision steps reached",
+        "step": 1,
+        "last_decision": {
+          "action": "navigate",
+          "reason": "接近当前可见目标或探索所选通道",
+          "instruction": "Walk straight toward the doorway ahead and stop.",
+          "evidence": "",
+          "navigation_check": {
+            "target_area": "allowed",
+            "path_area": "allowed",
+            "passage": "clear",
+            "evidence": "测试画面：目标与路径在允许的硬质地面上，通道开放且无玻璃阻隔"
+          },
+          "scene": {
+            "landmarks": [],
+            "visible_ground": "",
+            "occluded": [],
+            "target_seen": "yes",
+            "place_label": "",
+            "objects": []
+          },
+          "candidates": [
+            {
+              "id": "new_1",
+              "kind": "target",
+              "description": "开放门洞",
+              "evidence": "可见门后地面",
+              "expected_new_view": "门框后方尚未观察的走廊"
+            }
+          ],
+          "candidate_id": "new_1"
+        },
+        "last_result": {
+          "reason": "model_stop",
+          "candidate_id": "C1"
+        },
+        "exploration_result": null
+      }
+    },
+    "test_reworded_failed_approach_is_rejected_then_replanned": {
+      "requests": [
+        "d247b40f4e641918e1ab6176bdbf896b3558f3efca95134bb5cfcdd2e7f4747f",
+        "6a807caf5631cd7d10c7df70ca99c10b0bb44d4fea359c13619431fe550ba1c7",
+        "964470fc0458db931077b17f6d20ec89c69d126def5f3ddb2add1a38a4296918",
+        "989d50c32d000f52da859a8082a56b9edf1d859f900091756547f8bcd4c07569"
+      ],
+      "actions": [
+        [
+          "navigate",
+          "Walk straight toward the first doorway ahead and stop."
+        ],
+        [
+          "recover"
+        ],
+        [
+          "navigate",
+          "Walk straight toward the second doorway ahead and stop."
+        ],
+        [
+          "recover"
+        ],
+        [
+          "look",
+          "right"
+        ]
+      ],
+      "events": "f30168e90f167d9a3fc113faa094960a32de6a6d00a8e20e167f6efca082c5c2",
+      "state": "d6b1f0f64850dd0fc280b76158976e3078b9e2f20546eaa638152ba35d2c4a04",
+      "result": {
+        "status": "budget_exhausted",
+        "summary": "Maximum decision steps reached",
+        "step": 5,
+        "last_decision": {
+          "action": "look",
+          "reason": "Find another direction",
+          "direction": "right",
+          "instruction": "",
+          "evidence": "",
+          "scene": {
+            "landmarks": [],
+            "visible_ground": "",
+            "occluded": [],
+            "target_seen": "uncertain",
+            "place_label": "",
+            "objects": []
+          },
+          "candidates": []
+        },
+        "last_result": {
+          "reason": "turned"
+        },
+        "exploration_result": null
+      }
+    },
+    "test_exploration_session_scans_selects_turns_confirms_and_moves": {
+      "requests": [
+        "fe52f97a9dec5b8d9327584969925882c858f28c341df64fd6d9ca8de281da55",
+        "348b007833060c8a6f933828d9c8f0336382fdbaef90ba129801bf2b310dcaf3",
+        "23fab5769e6d1c84974fd93adb41413bbd6f0d17fdd74eeefc1aae10b00b7bae",
+        "f4aa3408d6bffd3082a4de932b186a60d31aa6535a40e19e0d911b0c6b5e7db5",
+        "829bb0c03a32e0c1ae3a29ad23574593c3f6a75e69529f72b2010cec06c7a6fa",
+        "f494f7cd0f224e61ff14579a9dd31accffd1a960726686460062f97aa5b59656",
+        "aeda71c53aa82e3721fa5e6575bbf9c83f22d859fdbd437167fe808d16d1779b",
+        "fa18ca960991322496908de93f4a6d6505f1916d9bcea3d0ae9891a27d9f52be"
+      ],
+      "actions": [
+        [
+          "look",
+          "left"
+        ],
+        [
+          "look",
+          "left"
+        ],
+        [
+          "look",
+          "left"
+        ],
+        [
+          "look",
+          "left"
+        ],
+        [
+          "orient",
+          0.0
+        ],
+        [
+          "navigate",
+          "Walk straight toward the doorway ahead and stop."
+        ],
+        [
+          "look",
+          "left"
+        ]
+      ],
+      "events": "33d5b079dcde78452e9931eb9af457a56d2a4ca199017ad074e03844c759c1b7",
+      "state": "0dc703b036ea132ea0f9e295986d7d56a1b8528747a5a3c1770f4530f692cfb7",
+      "result": {
+        "status": "completed",
+        "summary": "当前图看到垃圾桶",
+        "step": 8,
+        "last_decision": {
+          "action": "finish",
+          "reason": "找到",
+          "instruction": "",
+          "evidence": "当前图看到垃圾桶",
+          "scene": {
+            "landmarks": [],
+            "visible_ground": "",
+            "occluded": [],
+            "target_seen": "uncertain",
+            "place_label": "",
+            "objects": []
+          },
+          "candidates": []
+        },
+        "last_result": {
+          "reason": "turned"
+        },
+        "exploration_result": {
+          "session_id": "S2",
+          "reason": "finish",
+          "selected_view_id": null,
+          "last_action": {
+            "action": "look",
+            "candidate_id": null,
+            "view_id": null,
+            "result": {
+              "reason": "turned"
+            }
+          },
+          "directions": [
+            {
+              "id": "S2V1",
+              "heading_deg": 0.0,
+              "candidates": []
+            },
+            {
+              "id": "S2V2",
+              "heading_deg": 75.0,
+              "candidates": []
+            }
+          ]
+        }
+      }
+    },
+    "test_suspected_target_can_interrupt_scan_and_approach_for_confirmation": {
+      "requests": [
+        "d247b40f4e641918e1ab6176bdbf896b3558f3efca95134bb5cfcdd2e7f4747f",
+        "3b9d88d11f971c480c840a28ca94e435338bd0fc88b385ec337765be67021051",
+        "2ac5613db89fd1a207de9503b51acc319cf7d8f6698f28e09df668485859218d"
+      ],
+      "actions": [
+        [
+          "look",
+          "left"
+        ],
+        [
+          "navigate",
+          "Walk straight toward the silver cylindrical object in front-left and stop."
+        ]
+      ],
+      "events": "3bef47dc31d01f92eda1120d580a15636bae24a093e9b27886a28443039532e9",
+      "state": "1d184e16913ff5c60d44408b2422a602c81ce5c8a81bb3c9b601202996d91ecf",
+      "result": {
+        "status": "completed",
+        "summary": "新图可见银色桶身和桶口",
+        "step": 3,
+        "last_decision": {
+          "action": "finish",
+          "reason": "接近后确认",
+          "instruction": "",
+          "evidence": "新图可见银色桶身和桶口",
+          "scene": {
+            "landmarks": [],
+            "visible_ground": "",
+            "occluded": [],
+            "target_seen": "uncertain",
+            "place_label": "",
+            "objects": []
+          },
+          "candidates": []
+        },
+        "last_result": {
+          "reason": "model_stop",
+          "candidate_id": "C1"
+        },
+        "exploration_result": {
+          "session_id": "S1",
+          "reason": "finish",
+          "selected_view_id": null,
+          "last_action": {
+            "action": "navigate",
+            "candidate_id": "C1",
+            "view_id": null,
+            "result": {
+              "reason": "model_stop",
+              "candidate_id": "C1"
+            }
+          },
+          "directions": [
+            {
+              "id": "S1V1",
+              "heading_deg": 0.0,
+              "candidates": [
+                {
+                  "id": "C1",
+                  "place_id": "P1",
+                  "attempt_count": 0,
+                  "failed_attempts": 0,
+                  "status": "untried",
+                  "kind": "target",
+                  "description": "柜旁银色圆柱物",
+                  "evidence": "露出银色圆柱轮廓，桶口遮挡，需接近确认",
+                  "expected_new_view": "",
+                  "last_seen_step": 2,
+                  "view_id": "S1V1",
+                  "source": "model_visual_report"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "test_rejected_early_exploration_keeps_visual_clue_in_correction_context": {
+      "requests": [
+        "d247b40f4e641918e1ab6176bdbf896b3558f3efca95134bb5cfcdd2e7f4747f",
+        "59f3d438750e1390cd438cf68f8569f5aa36ed10bba169117dc84c255a94b7bf"
+      ],
+      "actions": [
+        [
+          "look",
+          "left"
+        ]
+      ],
+      "events": "f4371bf79a6643885769aa5f93a452254c6ce1e935213cc5546bb19089fc0f16",
+      "state": "9930a76eb426c73f83e1be4134e0d00e0b985c6bf41e4a752f7156b51b058ece",
+      "result": {
+        "status": "budget_exhausted",
+        "summary": "Maximum decision steps reached",
+        "step": 1,
+        "last_decision": {
+          "action": "look",
+          "reason": "保留门洞线索，继续环视",
+          "direction": "left",
+          "instruction": "",
+          "evidence": "",
+          "scene": {
+            "landmarks": [],
+            "visible_ground": "",
+            "occluded": [],
+            "target_seen": "uncertain",
+            "place_label": "",
+            "objects": []
+          },
+          "candidates": [
+            {
+              "id": "new_1",
+              "kind": "open_passage",
+              "description": "左前方开放门洞",
+              "evidence": "可见门后地面",
+              "expected_new_view": "门框后方尚未观察的走廊"
+            }
+          ]
+        },
+        "last_result": {
+          "reason": "turned"
+        },
+        "exploration_result": null
+      }
+    },
+    "test_startup_retry_exhausted_reports_service_error_without_candidate_failure": {
+      "requests": [
+        "d247b40f4e641918e1ab6176bdbf896b3558f3efca95134bb5cfcdd2e7f4747f"
+      ],
+      "actions": [],
+      "events": "1544d62f9f171dd7cdb2a6bde99fb817aa576910735d583d62ce99efa4a793cc",
+      "state": "2d02df8d40c21d7c148150fcdf7335fcb74c9b23419b8265b452780379f42fa4",
+      "result": {
+        "status": "failed",
+        "summary": "导航服务启动失败（尝试 3 次），未获得有效推理结果",
+        "step": 1,
+        "last_decision": {
+          "action": "navigate",
+          "reason": "接近当前可见目标或探索所选通道",
+          "instruction": "Walk straight toward the doorway ahead and stop.",
+          "evidence": "",
+          "navigation_check": {
+            "target_area": "allowed",
+            "path_area": "allowed",
+            "passage": "clear",
+            "evidence": "测试画面：目标与路径在允许的硬质地面上，通道开放且无玻璃阻隔"
+          },
+          "scene": {
+            "landmarks": [],
+            "visible_ground": "",
+            "occluded": [],
+            "target_seen": "yes",
+            "place_label": "",
+            "objects": []
+          },
+          "candidates": [
+            {
+              "id": "new_1",
+              "kind": "target",
+              "description": "开放门洞",
+              "evidence": "可见门后地面",
+              "expected_new_view": "门框后方尚未观察的走廊"
+            }
+          ],
+          "candidate_id": "new_1"
+        },
+        "last_result": {
+          "reason": "navigation_error",
+          "startup_failed": true,
+          "motion": {
+            "displacement_m": 0
+          },
+          "attempts": [
+            {
+              "attempt": 1,
+              "detail": "VLN ERROR"
+            },
+            {
+              "attempt": 2,
+              "detail": "VLN ERROR"
+            },
+            {
+              "attempt": 3,
+              "detail": "VLN ERROR"
+            }
+          ],
+          "candidate_id": "C1"
+        },
+        "exploration_result": null
+      }
+    }
+  }
+}

@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="878" height="204" viewBox="0 0 878 204" role="img" aria-labelledby="title description">
+  <title id="title">Navigation Agent 工程架构</title>
+  <desc id="description">统一 Agent 连接独立的导航模型与本体适配器。内置 LightNav、Go2 和 MuJoCo；虚线 Custom 插槽表示待实现和验证的扩展点，连线不表示执行顺序。</desc>
+  <!-- 复用官网原始 SVG 图形：https://novaxis-robot-group.github.io/navigation-agent-site/#architecture；仅调整静态布局、字号与主题配色。 -->
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; text-anchor: middle; fill: #465550; font-size: 16px; }
+    .heading { font-size: 14px; letter-spacing: 1.5px; }
+    .agent { fill: #2c3531; font-size: 20px; font-weight: 600; }
+    .module { stroke-width: 1.3; }
+    .architecture-slot { fill: #ffffff; stroke: #cbd5d0; }
+    .architecture-extension { stroke: #526a7a; stroke-width: 1.4; }
+    .custom .architecture-slot { fill: none; stroke: #526a7a; stroke-dasharray: 4 5; }
+    .custom { opacity: .75; }
+    .simulation { stroke-dasharray: 3 3; }
+    .simulation .architecture-slot { stroke-dasharray: none; }
+    .scene-grid { fill: none; stroke: #cbd5d0; stroke-width: .9; opacity: .75; }
+    .scene-shadow { fill: #7d9d9c; opacity: .1; stroke: none; }
+    .scene-top { fill: #ffffff; stroke: #486562; }
+    .scene-side { fill: #7d9d9c; fill-opacity: .3; stroke: #486562; }
+    .scene-leg { fill: none; stroke: #486562; stroke-width: 2.8; }
+    .scene-led { fill: #486562; stroke: none; }
+    .scene-circuit { fill: none; stroke: #829aab; stroke-width: 1.2; }
+    .scene-core-light { fill: #7d9d9c; stroke: none; }
+    .joint { stroke: #829aab; stroke-width: 1; }
+    .socket { fill: #ffffff; stroke: #7d9d9c; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #b9c9c4; }
+      .agent { fill: #e6edf3; }
+      .architecture-slot { fill: #0d1117; stroke: #43544e; }
+      .architecture-extension, .custom .architecture-slot { stroke: #a5b9c7; }
+      .custom .architecture-slot { fill: none; }
+      .scene-grid { stroke: #43544e; }
+      .scene-shadow, .scene-side, .scene-core-light { fill: #91b2af; }
+      .scene-top { fill: #0d1117; stroke: #b0ceca; }
+      .scene-side, .scene-leg { stroke: #b0ceca; }
+      .scene-led { fill: #b0ceca; }
+      .scene-circuit, .joint { stroke: #9aafbd; }
+      .socket { fill: #0d1117; stroke: #91b2af; }
+    }
+  </style>
+  <defs>
+<g id="scene-robot">
+            <ellipse class="scene-shadow" cx="0" cy="28" rx="43" ry="20"/>
+            <path class="scene-leg" d="M-23-2-34 17-30 32M-7 8-13 29-7 37M19-4 30 15 27 29M30-12 40 4 39 18"/>
+            <path class="scene-top" d="M-29-14 3-32 32-15 0 4Z"/>
+            <path class="scene-side" d="M-29-14V5L0 22 32 4V-15L0 4V22"/>
+            <path class="scene-top" d="m1-28 14 8-11 7-14-8Z"/>
+            <circle class="scene-led" cx="10" cy="-21" r="2"/>
+          </g>
+<g id="scene-core">
+            <ellipse class="scene-shadow" cy="27" rx="43" ry="22"/>
+            <path class="scene-top" d="M0-49 35-29 0-9-35-29Z"/>
+            <path class="scene-side" d="M-35-29V7L0 27 35 7V-29L0-9V27"/>
+            <path class="scene-circuit" d="M-25-12V0L-12 8M25-12V0L12 8"/>
+            <ellipse class="scene-core-light" cy="-29" rx="10" ry="6"/>
+          </g>
+  </defs>
+  <text class="heading" x="126" y="32">VLN</text>
+  <text class="heading" x="694" y="32">EMBODIMENT</text>
+  <g transform="translate(16 62)">
+    <g class="module custom">
+                  <rect class="architecture-slot" x="8" y="8" width="88" height="64" rx="8"/>
+                  <path class="architecture-extension" d="M52 29v22M41 40h22"/>
+                </g>
+    <text x="52" y="112">Custom +</text>
+  </g>
+  <g transform="translate(132 62)">
+    <g class="module ">
+                  <rect class="architecture-slot" x="8" y="8" width="88" height="64" rx="8"/>
+                  <path class="scene-grid" d="m27 48 25 14 25-14M27 40l25 14 25-14"/>
+                  <path class="scene-top" d="m29 33 23-13 23 13-23 13Z"/>
+                  <path class="scene-side" d="M29 33v8l23 13 23-13v-8L52 46v8"/>
+                  <path class="scene-circuit" d="m41 33 11-6 11 6-11 6Z"/>
+                </g>
+    <text x="52" y="112">LightNav</text>
+  </g>
+  <g transform="translate(526 62)">
+    <g class="module ">
+                  <rect class="architecture-slot" x="8" y="8" width="88" height="64" rx="8"/>
+                  <g transform="translate(52 38) scale(.6)"><use href="#scene-robot"/></g>
+                </g>
+    <text x="52" y="112">Go2</text>
+  </g>
+  <g transform="translate(642 62)">
+    <g class="module simulation">
+                  <rect class="architecture-slot" x="8" y="8" width="88" height="64" rx="8"/>
+                  <path class="scene-grid" d="m25 53 27-15 27 15-27 15ZM38 46l27 15M38 61l27-15"/>
+                  <g transform="translate(52 37) scale(.6)"><use href="#scene-robot"/></g>
+                </g>
+    <text x="52" y="112">MuJoCo</text>
+  </g>
+  <g transform="translate(758 62)">
+    <g class="module custom">
+                  <rect class="architecture-slot" x="8" y="8" width="88" height="64" rx="8"/>
+                  <path class="architecture-extension" d="M52 29v22M41 40h22"/>
+                </g>
+    <text x="52" y="112">Custom +</text>
+  </g>
+  <path class="joint" d="M239 108H338"/>
+  <rect class="socket" x="239" y="100" width="7" height="17" rx="3"/>
+  <rect class="socket" x="331" y="100" width="7" height="17" rx="3"/>
+  <path class="joint" d="M424 108H523"/>
+  <rect class="socket" x="424" y="100" width="7" height="17" rx="3"/>
+  <rect class="socket" x="516" y="100" width="7" height="17" rx="3"/>
+  <use href="#scene-core" transform="translate(381 105)"/>
+  <text class="agent" x="381" y="174">Agent</text>
+</svg>

@@ -1,0 +1,1006 @@
+{
+  "trace": [
+    {
+      "current_place_id": "P1",
+      "exploration_session": {
+        "session_id": "S1",
+        "phase": "observing",
+        "current_view_id": "S1V1",
+        "selected_view_id": null,
+        "orient_view_ids": [],
+        "views": [
+          {
+            "id": "S1V1",
+            "scene": {},
+            "candidates": [],
+            "step": 1,
+            "heading_deg": 0.0,
+            "image": null,
+            "observer_position": [
+              0,
+              0
+            ]
+          }
+        ],
+        "actions": [],
+        "previous_result": null,
+        "scope": "当前探索子任务；历史图用于选方向，导航和完成仍须当前图确认。"
+      },
+      "scan": {
+        "anchor": [
+          0,
+          0
+        ],
+        "observed_headings_deg": [
+          0.0
+        ],
+        "look_angle_deg": 70,
+        "look_count": 0,
+        "coverage_complete": false,
+        "largest_heading_gap_deg": 360.0,
+        "look_budget_exhausted": false,
+        "allowed_look_directions": [
+          "left",
+          "right"
+        ],
+        "confirmation_look_directions": [],
+        "recovery_required": false,
+        "recovery_attempts": 0,
+        "must_change_position": false
+      },
+      "last_action": null,
+      "last_navigation": null,
+      "new_scan_requires": "导航平移达到阈值，且比较导航前图与当前图后报告 outcome=progress、view_change=new_area",
+      "translation_for_review": false,
+      "new_area_look_directions": [],
+      "local_candidates": [],
+      "unfinished_elsewhere": [],
+      "limits": "历史入口只有在当前图重新可见时才可导航；接近失败不等于入口不可通行。"
+    },
+    {
+      "current_place_id": "P1",
+      "exploration_session": {
+        "session_id": "S1",
+        "phase": "observing",
+        "current_view_id": "S1V1",
+        "selected_view_id": null,
+        "orient_view_ids": [],
+        "views": [
+          {
+            "id": "S1V1",
+            "scene": {
+              "landmarks": [],
+              "visible_ground": "",
+              "occluded": [],
+              "target_seen": "yes",
+              "place_label": "",
+              "objects": []
+            },
+            "candidates": [
+              {
+                "id": "C1",
+                "place_id": "P1",
+                "attempt_count": 0,
+                "failed_attempts": 0,
+                "status": "untried",
+                "kind": "target",
+                "description": "门",
+                "evidence": "可见地面",
+                "expected_new_view": "",
+                "last_seen_step": 1,
+                "view_id": "S1V1",
+                "source": "model_visual_report"
+              }
+            ],
+            "step": 1,
+            "heading_deg": 0.0,
+            "image": null,
+            "observer_position": [
+              0,
+              0
+            ]
+          }
+        ],
+        "actions": [],
+        "previous_result": null,
+        "scope": "当前探索子任务；历史图用于选方向，导航和完成仍须当前图确认。"
+      },
+      "scan": {
+        "anchor": [
+          0,
+          0
+        ],
+        "observed_headings_deg": [
+          0.0
+        ],
+        "look_angle_deg": 70,
+        "look_count": 0,
+        "coverage_complete": false,
+        "largest_heading_gap_deg": 360.0,
+        "look_budget_exhausted": false,
+        "allowed_look_directions": [
+          "left",
+          "right"
+        ],
+        "confirmation_look_directions": [],
+        "recovery_required": true,
+        "recovery_attempts": 0,
+        "must_change_position": true
+      },
+      "last_action": null,
+      "last_navigation": null,
+      "new_scan_requires": "导航平移达到阈值，且比较导航前图与当前图后报告 outcome=progress、view_change=new_area",
+      "translation_for_review": false,
+      "new_area_look_directions": [],
+      "local_candidates": [
+        {
+          "id": "C1",
+          "place_id": "P1",
+          "attempt_count": 1,
+          "failed_attempts": 1,
+          "status": "approach_failed",
+          "kind": "target",
+          "description": "门",
+          "evidence": "可见地面",
+          "expected_new_view": "",
+          "last_seen_step": 1,
+          "view_id": "S1V1",
+          "source": "model_visual_report",
+          "total_attempt_count": 1,
+          "last_attempt": {
+            "step": 1,
+            "reason": "blocked",
+            "displacement_m": 0,
+            "failed_approach": true
+          }
+        }
+      ],
+      "unfinished_elsewhere": [],
+      "limits": "历史入口只有在当前图重新可见时才可导航；接近失败不等于入口不可通行。"
+    },
+    {
+      "current_place_id": "P1",
+      "exploration_session": {
+        "session_id": "S1",
+        "phase": "observing",
+        "current_view_id": "S1V1",
+        "selected_view_id": null,
+        "orient_view_ids": [],
+        "views": [
+          {
+            "id": "S1V1",
+            "scene": {
+              "landmarks": [],
+              "visible_ground": "",
+              "occluded": [],
+              "target_seen": "uncertain",
+              "place_label": "",
+              "objects": []
+            },
+            "candidates": [
+              {
+                "id": "C1",
+                "place_id": "P1",
+                "attempt_count": 1,
+                "failed_attempts": 1,
+                "status": "approach_failed",
+                "kind": "target",
+                "description": "门",
+                "evidence": "可见地面",
+                "expected_new_view": "",
+                "last_seen_step": 1,
+                "view_id": "S1V1",
+                "source": "model_visual_report",
+                "total_attempt_count": 1,
+                "last_attempt": {
+                  "step": 1,
+                  "reason": "blocked",
+                  "displacement_m": 0,
+                  "failed_approach": true
+                }
+              }
+            ],
+            "step": 1,
+            "heading_deg": 0.0,
+            "image": null,
+            "observer_position": [
+              0,
+              0
+            ]
+          }
+        ],
+        "actions": [],
+        "previous_result": null,
+        "scope": "当前探索子任务；历史图用于选方向，导航和完成仍须当前图确认。"
+      },
+      "scan": {
+        "anchor": [
+          0,
+          0
+        ],
+        "observed_headings_deg": [
+          0.0,
+          0.0
+        ],
+        "look_angle_deg": 70,
+        "look_count": 0,
+        "coverage_complete": false,
+        "largest_heading_gap_deg": 360.0,
+        "look_budget_exhausted": false,
+        "allowed_look_directions": [
+          "left",
+          "right"
+        ],
+        "confirmation_look_directions": [],
+        "recovery_required": false,
+        "recovery_attempts": 0,
+        "must_change_position": false
+      },
+      "last_action": null,
+      "last_navigation": null,
+      "new_scan_requires": "导航平移达到阈值，且比较导航前图与当前图后报告 outcome=progress、view_change=new_area",
+      "translation_for_review": false,
+      "new_area_look_directions": [],
+      "local_candidates": [
+        {
+          "id": "C1",
+          "place_id": "P1",
+          "attempt_count": 1,
+          "failed_attempts": 1,
+          "status": "approach_failed",
+          "kind": "target",
+          "description": "门",
+          "evidence": "可见地面",
+          "expected_new_view": "",
+          "last_seen_step": 1,
+          "view_id": "S1V1",
+          "source": "model_visual_report",
+          "total_attempt_count": 1,
+          "last_attempt": {
+            "step": 1,
+            "reason": "blocked",
+            "displacement_m": 0,
+            "failed_approach": true
+          }
+        }
+      ],
+      "unfinished_elsewhere": [],
+      "limits": "历史入口只有在当前图重新可见时才可导航；接近失败不等于入口不可通行。"
+    },
+    {
+      "current_place_id": "P1",
+      "exploration_session": {
+        "session_id": "S1",
+        "phase": "observing",
+        "current_view_id": "S1V2",
+        "selected_view_id": null,
+        "orient_view_ids": [],
+        "views": [
+          {
+            "id": "S1V1",
+            "scene": {
+              "landmarks": [],
+              "visible_ground": "",
+              "occluded": [],
+              "target_seen": "uncertain",
+              "place_label": "",
+              "objects": []
+            },
+            "candidates": [],
+            "step": 2,
+            "heading_deg": 0.0,
+            "image": null,
+            "observer_position": [
+              -0.6,
+              0
+            ]
+          },
+          {
+            "id": "S1V2",
+            "scene": {},
+            "candidates": [],
+            "step": 3,
+            "heading_deg": 69.90085100596043,
+            "image": null,
+            "observer_position": [
+              -0.6,
+              0
+            ]
+          }
+        ],
+        "actions": [],
+        "previous_result": null,
+        "scope": "当前探索子任务；历史图用于选方向，导航和完成仍须当前图确认。"
+      },
+      "scan": {
+        "anchor": [
+          0,
+          0
+        ],
+        "observed_headings_deg": [
+          0.0,
+          0.0,
+          69.90085100596043
+        ],
+        "look_angle_deg": 70,
+        "look_count": 1,
+        "coverage_complete": false,
+        "largest_heading_gap_deg": 290.0991489940396,
+        "look_budget_exhausted": false,
+        "allowed_look_directions": [
+          "left"
+        ],
+        "confirmation_look_directions": [],
+        "recovery_required": false,
+        "recovery_attempts": 0,
+        "must_change_position": false
+      },
+      "last_action": null,
+      "last_navigation": null,
+      "new_scan_requires": "导航平移达到阈值，且比较导航前图与当前图后报告 outcome=progress、view_change=new_area",
+      "translation_for_review": false,
+      "new_area_look_directions": [],
+      "local_candidates": [
+        {
+          "id": "C1",
+          "place_id": "P1",
+          "attempt_count": 1,
+          "failed_attempts": 1,
+          "status": "approach_failed",
+          "kind": "target",
+          "description": "门",
+          "evidence": "可见地面",
+          "expected_new_view": "",
+          "last_seen_step": 1,
+          "view_id": "S1V1",
+          "source": "model_visual_report",
+          "total_attempt_count": 1,
+          "last_attempt": {
+            "step": 1,
+            "reason": "blocked",
+            "displacement_m": 0,
+            "failed_approach": true
+          }
+        }
+      ],
+      "unfinished_elsewhere": [],
+      "limits": "历史入口只有在当前图重新可见时才可导航；接近失败不等于入口不可通行。"
+    }
+  ],
+  "errors": [
+    "所选转向已观察过，或本轮环视已覆盖或已达5次。先检查 allowed_look_directions；若线索在历史图，使用 orient 和图片编号转回，不需要已登记候选；不要改为依据旧图直接 navigate。导航后允许的单次补看见 confirmation_look_directions。",
+    null
+  ],
+  "context": {
+    "current_place_id": "P1",
+    "exploration_session": {
+      "session_id": "S1",
+      "phase": "observing",
+      "current_view_id": "S1V2",
+      "selected_view_id": null,
+      "orient_view_ids": [],
+      "views": [
+        {
+          "id": "S1V1",
+          "scene": {
+            "landmarks": [],
+            "visible_ground": "",
+            "occluded": [],
+            "target_seen": "uncertain",
+            "place_label": "",
+            "objects": []
+          },
+          "candidates": [],
+          "step": 2,
+          "heading_deg": 0.0,
+          "image": null,
+          "observer_position": [
+            -0.6,
+            0
+          ]
+        },
+        {
+          "id": "S1V2",
+          "scene": {},
+          "candidates": [],
+          "step": 3,
+          "heading_deg": 69.90085100596043,
+          "image": null,
+          "observer_position": [
+            -0.6,
+            0
+          ]
+        }
+      ],
+      "actions": [],
+      "previous_result": null,
+      "scope": "当前探索子任务；历史图用于选方向，导航和完成仍须当前图确认。"
+    },
+    "scan": {
+      "anchor": [
+        0,
+        0
+      ],
+      "observed_headings_deg": [
+        0.0,
+        0.0,
+        69.90085100596043
+      ],
+      "look_angle_deg": 70,
+      "look_count": 1,
+      "coverage_complete": false,
+      "largest_heading_gap_deg": 290.0991489940396,
+      "look_budget_exhausted": false,
+      "allowed_look_directions": [
+        "left"
+      ],
+      "confirmation_look_directions": [],
+      "recovery_required": false,
+      "recovery_attempts": 0,
+      "must_change_position": false
+    },
+    "last_action": null,
+    "last_navigation": null,
+    "new_scan_requires": "导航平移达到阈值，且比较导航前图与当前图后报告 outcome=progress、view_change=new_area",
+    "translation_for_review": false,
+    "new_area_look_directions": [],
+    "local_candidates": [
+      {
+        "id": "C1",
+        "place_id": "P1",
+        "attempt_count": 1,
+        "failed_attempts": 1,
+        "status": "approach_failed",
+        "kind": "target",
+        "description": "门",
+        "evidence": "可见地面",
+        "expected_new_view": "",
+        "last_seen_step": 1,
+        "view_id": "S1V1",
+        "source": "model_visual_report",
+        "total_attempt_count": 1,
+        "last_attempt": {
+          "step": 1,
+          "reason": "blocked",
+          "displacement_m": 0,
+          "failed_approach": true
+        }
+      }
+    ],
+    "unfinished_elsewhere": [],
+    "limits": "历史入口只有在当前图重新可见时才可导航；接近失败不等于入口不可通行。"
+  },
+  "path": [
+    [
+      0.6,
+      0
+    ],
+    [
+      0.58,
+      0
+    ],
+    [
+      0.56,
+      0
+    ],
+    [
+      0.54,
+      0
+    ],
+    [
+      0.52,
+      0
+    ],
+    [
+      0.5,
+      0
+    ],
+    [
+      0.48,
+      0
+    ],
+    [
+      0.46,
+      0
+    ],
+    [
+      0.44,
+      0
+    ],
+    [
+      0.42,
+      0
+    ],
+    [
+      0.4,
+      0
+    ],
+    [
+      0.38,
+      0
+    ],
+    [
+      0.36,
+      0
+    ],
+    [
+      0.34,
+      0
+    ],
+    [
+      0.32,
+      0
+    ],
+    [
+      0.3,
+      0
+    ],
+    [
+      0.28,
+      0
+    ],
+    [
+      0.26,
+      0
+    ],
+    [
+      0.24,
+      0
+    ],
+    [
+      0.22,
+      0
+    ],
+    [
+      0.2,
+      0
+    ],
+    [
+      0.18,
+      0
+    ],
+    [
+      0.16,
+      0
+    ],
+    [
+      0.14,
+      0
+    ],
+    [
+      0.12,
+      0
+    ],
+    [
+      0.1,
+      0
+    ],
+    [
+      0.08,
+      0
+    ],
+    [
+      0.06,
+      0
+    ],
+    [
+      0.04,
+      0
+    ],
+    [
+      0.02,
+      0
+    ],
+    [
+      0.0,
+      0
+    ]
+  ],
+  "motion": {
+    "samples": 32,
+    "displacement_m": 0.0,
+    "path_length_m": 0.0,
+    "absolute_turn_deg": 355.2,
+    "turn_direction_changes": 0,
+    "blocked_samples": 11,
+    "interpretation": "Motion statistics only; doorway crossing and goal arrival require visual verification."
+  },
+  "stalled": true,
+  "decision_schema": {
+    "$defs": {
+      "ActionReview": {
+        "additionalProperties": false,
+        "description": "下一次观察对上一步动作的视觉判断，不作为传感器事实。",
+        "properties": {
+          "outcome": {
+            "enum": [
+              "progress",
+              "no_new_information",
+              "uncertain"
+            ],
+            "title": "Outcome",
+            "type": "string"
+          },
+          "view_change": {
+            "default": "uncertain",
+            "enum": [
+              "new_area",
+              "same_area",
+              "uncertain"
+            ],
+            "title": "View Change",
+            "type": "string"
+          },
+          "evidence": {
+            "maxLength": 400,
+            "minLength": 1,
+            "title": "Evidence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "outcome",
+          "evidence"
+        ],
+        "title": "ActionReview",
+        "type": "object"
+      },
+      "CandidateObservation": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "pattern": "^(C[1-9]\\d*|new_[1-4])$",
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "open_passage",
+              "viewpoint",
+              "target"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Description",
+            "type": "string"
+          },
+          "evidence": {
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Evidence",
+            "type": "string"
+          },
+          "expected_new_view": {
+            "default": "",
+            "maxLength": 300,
+            "title": "Expected New View",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "description",
+          "evidence"
+        ],
+        "title": "CandidateObservation",
+        "type": "object"
+      },
+      "NavigationCheck": {
+        "additionalProperties": false,
+        "description": "Current-image visual assessment; the model's report is not sensor verification.",
+        "properties": {
+          "target_area": {
+            "enum": [
+              "allowed",
+              "carpeted_office",
+              "uncertain"
+            ],
+            "title": "Target Area",
+            "type": "string"
+          },
+          "path_area": {
+            "enum": [
+              "allowed",
+              "carpeted_office",
+              "uncertain"
+            ],
+            "title": "Path Area",
+            "type": "string"
+          },
+          "passage": {
+            "enum": [
+              "clear",
+              "glass_or_closed_door",
+              "uncertain"
+            ],
+            "title": "Passage",
+            "type": "string"
+          },
+          "evidence": {
+            "maxLength": 400,
+            "minLength": 1,
+            "title": "Evidence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "target_area",
+          "path_area",
+          "passage",
+          "evidence"
+        ],
+        "title": "NavigationCheck",
+        "type": "object"
+      },
+      "ObjectObservation": {
+        "additionalProperties": false,
+        "description": "记录当前图中看见的物体，不推测物体地图坐标。",
+        "properties": {
+          "name": {
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Description",
+            "type": "string"
+          },
+          "bearing_deg": {
+            "anyOf": [
+              {
+                "maximum": 90,
+                "minimum": -90,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Bearing Deg"
+          }
+        },
+        "required": [
+          "name",
+          "description"
+        ],
+        "title": "ObjectObservation",
+        "type": "object"
+      },
+      "SceneObservation": {
+        "additionalProperties": false,
+        "properties": {
+          "landmarks": {
+            "items": {
+              "maxLength": 160,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 8,
+            "title": "Landmarks",
+            "type": "array"
+          },
+          "visible_ground": {
+            "default": "",
+            "maxLength": 400,
+            "title": "Visible Ground",
+            "type": "string"
+          },
+          "occluded": {
+            "items": {
+              "maxLength": 160,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 8,
+            "title": "Occluded",
+            "type": "array"
+          },
+          "target_seen": {
+            "default": "uncertain",
+            "enum": [
+              "yes",
+              "no",
+              "uncertain"
+            ],
+            "title": "Target Seen",
+            "type": "string"
+          },
+          "place_label": {
+            "default": "",
+            "maxLength": 160,
+            "title": "Place Label",
+            "type": "string"
+          },
+          "objects": {
+            "items": {
+              "$ref": "#/$defs/ObjectObservation"
+            },
+            "maxItems": 6,
+            "title": "Objects",
+            "type": "array"
+          }
+        },
+        "title": "SceneObservation",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "action": {
+        "enum": [
+          "look",
+          "orient",
+          "navigate",
+          "recover",
+          "finish",
+          "give_up"
+        ],
+        "title": "Action",
+        "type": "string"
+      },
+      "reason": {
+        "maxLength": 1000,
+        "minLength": 1,
+        "title": "Reason",
+        "type": "string"
+      },
+      "direction": {
+        "anyOf": [
+          {
+            "enum": [
+              "left",
+              "right"
+            ],
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Direction"
+      },
+      "view_id": {
+        "anyOf": [
+          {
+            "pattern": "^S[1-9]\\d*V[1-9]\\d*$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "View Id"
+      },
+      "instruction": {
+        "default": "",
+        "maxLength": 500,
+        "title": "Instruction",
+        "type": "string"
+      },
+      "evidence": {
+        "default": "",
+        "maxLength": 1500,
+        "title": "Evidence",
+        "type": "string"
+      },
+      "navigation_check": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/NavigationCheck"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null
+      },
+      "previous_action_review": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/ActionReview"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null
+      },
+      "scene": {
+        "$ref": "#/$defs/SceneObservation"
+      },
+      "candidates": {
+        "items": {
+          "$ref": "#/$defs/CandidateObservation"
+        },
+        "maxItems": 4,
+        "title": "Candidates",
+        "type": "array"
+      },
+      "candidate_id": {
+        "anyOf": [
+          {
+            "pattern": "^(C[1-9]\\d*|new_[1-4])$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Candidate Id"
+      }
+    },
+    "required": [
+      "action",
+      "reason"
+    ],
+    "title": "Decision",
+    "type": "object"
+  },
+  "task_schema": {
+    "additionalProperties": false,
+    "properties": {
+      "goal": {
+        "maxLength": 1000,
+        "minLength": 1,
+        "title": "Goal",
+        "type": "string"
+      },
+      "max_steps": {
+        "anyOf": [
+          {
+            "minimum": 1,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Max Steps"
+      },
+      "max_seconds": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Max Seconds"
+      },
+      "navigation_seconds": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Navigation Seconds"
+      }
+    },
+    "required": [
+      "goal"
+    ],
+    "title": "TaskRequest",
+    "type": "object"
+  }
+}

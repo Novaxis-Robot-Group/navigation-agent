@@ -1,0 +1,5 @@
+# 固定上游提交；模型客户端和场景由该包提供。
+vln-mujoco @ git+https://github.com/lightorigins/LightNav-0.git@d83fbfb9748ca6b497a2f2a7f4a3e95e2110e40c#subdirectory=mujoco_demo
+pydantic>=2.7,<3
+python-dotenv>=1,<2
+aiohttp>=3.10,<4

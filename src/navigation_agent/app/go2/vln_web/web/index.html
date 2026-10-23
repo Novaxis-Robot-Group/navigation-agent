@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VLN Web</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span></span>
+      <div><small>VLN DEPLOY</small><h1>Navigation &amp; Robot Control</h1></div>
+    </div>
+    <div class="pills">
+      <b class="pill" id="web-pill"><i></i>WEB</b>
+      <b class="pill" id="camera-pill"><i></i>CAMERA</b>
+      <b class="pill" id="vln-pill"><i></i>VLN</b>
+      <b class="pill" id="robot-pill"><i></i>ROBOT</b>
+      <b class="pill" id="source-pill"><i></i>DISABLED</b>
+      <button class="pill" id="wifi-button"><i></i><span>WIFI</span></button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel vision">
+      <div class="heading">
+        <div><small>RGB + PATH</small><h2>Camera &amp; VLN</h2></div>
+        <em id="vln-mode">VLN OFF</em>
+      </div>
+      <div class="camera">
+        <img id="camera-stream" alt="RGB camera stream">
+        <canvas id="trajectory" width="480" height="270"></canvas>
+      </div>
+      <p class="path-note" id="path-note">Waiting for body-frame waypoints</p>
+      <div class="vln-form">
+        <input id="instruction" maxlength="500" value="follow the white t-shirt person" placeholder="Enter VLN instruction">
+        <select id="vln-task-mode" aria-label="VLN task mode">
+          <option value="track">Track</option>
+          <option value="objnav">ObjNav</option>
+        </select>
+        <button class="primary" id="vln-toggle">Start VLN</button>
+      </div>
+      <div class="server-form">
+        <label for="server-url">VLN SERVER</label>
+        <input id="server-url" type="url" maxlength="2048" spellcheck="false" placeholder="VLN WebSocket URL">
+        <button id="server-url-save">Apply</button>
+      </div>
+      <div class="vln-metrics">
+        <span>WAYPOINT<strong id="waypoint-count">0</strong></span>
+        <span>LATENCY<strong id="latency">—</strong></span>
+        <span>RATE<strong id="result-rate">0.0 Hz</strong></span>
+        <span>SEQ<strong id="sequence">0</strong></span>
+      </div>
+      <p class="status-line" id="vln-status">Waiting for vln_client</p>
+    </section>
+
+    <section class="panel robot-control">
+      <div class="heading">
+        <div><small>ROBOT + WASD</small><h2>Robot Control</h2></div>
+        <em id="robot-mode">UNKNOWN</em>
+      </div>
+      <div class="robot-summary">
+        <span>BATTERY<strong id="battery">—</strong></span>
+        <span>IMU<strong id="imu">—</strong></span>
+        <span>MOTOR<strong id="motor">—</strong></span>
+        <span>MOTOR TEMP<strong id="motor-temp">—</strong></span>
+      </div>
+      <div class="motor-temps" id="motor-temps" hidden></div>
+      <button class="acquire" id="control-toggle" disabled>Take manual control</button>
+      <div class="modes">
+        <button data-action="stand" disabled>Stand</button>
+        <button id="walk-action" data-action="walk" disabled>Walk</button>
+        <button id="sit-action" data-action="sit" disabled>Crouch</button>
+        <button id="policy-toggle" data-action="toggle_policy" title="Toggle between the VLN and regular locomotion policy" hidden disabled>Policy: —</button>
+      </div>
+      <div class="drive">
+        <div class="keypad">
+          <button class="key w" data-key="w" disabled>W</button>
+          <button class="key a" data-key="a" disabled>A</button>
+          <button class="key s" data-key="s" disabled>S</button>
+          <button class="key d" data-key="d" disabled>D</button>
+        </div>
+      </div>
+      <button class="stop" id="stop-button" disabled>STOP · stop and release control</button>
+      <p class="status-line" id="robot-status">Waiting for robot adapter</p>
+    </section>
+
+    <section class="panel mpc-config-panel">
+      <details>
+        <summary>
+          <span><small>CONTROL HOT RELOAD</small><strong>Control Parameters</strong></span>
+          <em id="mpc-config-status">Waiting for vln_mpc</em>
+        </summary>
+        <form id="manual-config-form">
+          <fieldset>
+            <legend>WASD</legend>
+            <label>VMAX · m/s<input type="number" min="0.001" step="any" data-manual-param="linear"></label>
+            <label>WMAX · rad/s<input type="number" min="0.001" step="any" data-manual-param="angular"></label>
+            <label>AV MAX · m/s²<input type="number" min="0.001" step="any" data-manual-param="linear_accel"></label>
+            <label>AW MAX · rad/s²<input type="number" min="0.001" step="any" data-manual-param="angular_accel"></label>
+          </fieldset>
+          <footer>
+            <span id="manual-config-status">Editable after releasing manual control</span>
+            <button class="primary" id="manual-config-save" type="submit">Apply WASD</button>
+          </footer>
+        </form>
+        <form id="mpc-config-form">
+          <fieldset>
+            <legend>STATE COST · Q</legend>
+            <label>Q X<input type="number" min="0" step="any" data-mpc-param="q_x"></label>
+            <label>Q Y<input type="number" min="0" step="any" data-mpc-param="q_y"></label>
+            <label>Q YAW<input type="number" min="0" step="any" data-mpc-param="q_yaw"></label>
+          </fieldset>
+          <fieldset>
+            <legend>CONTROL COST · R</legend>
+            <label>R V<input type="number" min="0" step="any" data-mpc-param="r_v"></label>
+            <label>R W<input type="number" min="0" step="any" data-mpc-param="r_w"></label>
+          </fieldset>
+          <fieldset>
+            <legend>LIMITS</legend>
+            <label>TRACK VMAX<input type="number" min="0.001" step="any" data-mpc-param="track_v_max"></label>
+            <label>OBJNAV VMAX<input type="number" min="0.001" step="any" data-mpc-param="objnav_v_max"></label>
+            <label>WMAX<input type="number" min="0.001" step="any" data-mpc-param="w_max"></label>
+            <label>AV MAX<input type="number" min="0.001" step="any" data-mpc-param="a_max_v"></label>
+            <label>AW MAX<input type="number" min="0.001" step="any" data-mpc-param="a_max_w"></label>
+          </fieldset>
+          <fieldset>
+            <legend>OUTPUT SCALE</legend>
+            <label>V SCALE<input type="number" min="0" step="any" data-mpc-param="v_output_scale"></label>
+            <label>W SCALE<input type="number" min="0" step="any" data-mpc-param="w_output_scale"></label>
+          </fieldset>
+          <footer>
+            <span>Applies to the current process only; a restart restores the launch configuration.</span>
+            <button class="primary" id="mpc-config-save" type="submit">Apply MPC</button>
+          </footer>
+        </form>
+      </details>
+    </section>
+
+    <section class="panel charts">
+      <div class="heading">
+        <div><small>CMD_VEL SENT + ODOM</small><h2>Velocity Command &amp; Feedback</h2></div>
+        <div class="legend"><i></i>Target <i></i>Feedback</div>
+      </div>
+      <div class="chart-grid">
+        <article>
+          <header>Linear · m/s <strong><span id="linear-target">0.00</span> / <span id="linear-feedback">0.00</span></strong></header>
+          <canvas id="linear-chart"></canvas>
+        </article>
+        <article>
+          <header>Angular · rad/s <strong><span id="angular-target">0.00</span> / <span id="angular-feedback">0.00</span></strong></header>
+          <canvas id="angular-chart"></canvas>
+        </article>
+      </div>
+    </section>
+  </main>
+  <div class="modal" id="wifi-modal" hidden>
+    <section class="wifi-dialog" role="dialog" aria-modal="true" aria-labelledby="wifi-title">
+      <div class="heading">
+        <div><small>NETWORK MANAGER</small><h2 id="wifi-title">Switch Wi-Fi</h2></div>
+        <button class="modal-close" id="wifi-close" aria-label="Close">×</button>
+      </div>
+      <div class="wifi-body">
+        <p>Connected to: <strong id="wifi-current">—</strong></p>
+        <label>Network name</label>
+        <input id="wifi-ssid" list="wifi-networks" maxlength="32" autocomplete="off" placeholder="Select or enter an SSID">
+        <datalist id="wifi-networks"></datalist>
+        <label>Password</label>
+        <input id="wifi-password" type="password" maxlength="128" autocomplete="new-password" placeholder="Leave empty for saved or open networks">
+        <p class="wifi-warning">After switching, this page may disconnect; reconnect using the onboard computer's new address.</p>
+        <p class="status-line" id="wifi-status">Waiting for scan</p>
+        <div class="wifi-actions">
+          <button id="wifi-refresh">Rescan</button>
+          <button class="primary" id="wifi-connect">Connect</button>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div id="toast"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>

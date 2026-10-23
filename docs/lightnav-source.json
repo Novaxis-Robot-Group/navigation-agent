@@ -1,0 +1,204 @@
+{
+  "upstream_url": "https://github.com/lightorigins/LightNav-0",
+  "upstream_revision": "d83fbfb9748ca6b497a2f2a7f4a3e95e2110e40c",
+  "license": "Apache-2.0",
+  "changes": [
+    "Go2 Agent protocol v1: control leases, heartbeat, atomic observation, runtime motion settings and safety checks.",
+    "ROS package sources reorganized by responsibility; TRON launch/dependency removed.",
+    "Imported hashes record the pre-reorganization modified source, not unmodified upstream."
+  ],
+  "files": {
+    "src/navigation_agent/robots/go2/go2_adapter/setup.py": {
+      "upstream_path": "robot_deploy/src/robot_adapters/go2_adapter/setup.py",
+      "imported_sha256": "c025a4ac55c1e154cfcf57c2387c6f80fcbe2a9cc823ae33a1f81897dd2f0e5c"
+    },
+    "src/navigation_agent/robots/go2/go2_adapter/setup.cfg": {
+      "upstream_path": "robot_deploy/src/robot_adapters/go2_adapter/setup.cfg",
+      "imported_sha256": "e31e57236583113e82efed9a64964ba7e2702a9f6682bd7741e371a82b7825dc"
+    },
+    "src/navigation_agent/robots/go2/go2_adapter/package.xml": {
+      "upstream_path": "robot_deploy/src/robot_adapters/go2_adapter/package.xml",
+      "imported_sha256": "06f34f721981b66a3b44302ec34fce4b24b260cd0ebd108bbe38217b07665817"
+    },
+    "src/navigation_agent/robots/go2/go2_adapter/test/test_runtime_limits.py": {
+      "upstream_path": "robot_deploy/src/robot_adapters/go2_adapter/test/test_runtime_limits.py",
+      "imported_sha256": "99e40ec59b0458d3ed91d50cdda3cf0c72194773ab784919e397d426b5cac3bf"
+    },
+    "src/navigation_agent/robots/go2/go2_adapter/test/test_unitree_client.py": {
+      "upstream_path": "robot_deploy/src/robot_adapters/go2_adapter/test/test_unitree_client.py",
+      "imported_sha256": "1db0d876b7bc1a1394f785006f8352e70c206d5103cc3f8683422f77fe332b48"
+    },
+    "src/navigation_agent/robots/go2/go2_adapter/test/test_safety.py": {
+      "upstream_path": "robot_deploy/src/robot_adapters/go2_adapter/test/test_safety.py",
+      "imported_sha256": "b162435b3483487b7665878b8c75e09e46c22ace7fd59684ff321669c544a717"
+    },
+    "src/navigation_agent/robots/go2/go2_adapter/go2_adapter/__init__.py": {
+      "upstream_path": "robot_deploy/src/robot_adapters/go2_adapter/go2_adapter/__init__.py",
+      "imported_sha256": "021c6a31d9899cd555be8661eb1555f328bad02eb12eca8ec5f97d7fc4f69eeb"
+    },
+    "src/navigation_agent/robots/go2/go2_adapter/go2_adapter/safety.py": {
+      "upstream_path": "robot_deploy/src/robot_adapters/go2_adapter/go2_adapter/safety.py",
+      "imported_sha256": "417f7a382ee9392cd05c76deab5aa15b19e42b208262cd52fefa195bd5057042"
+    },
+    "src/navigation_agent/robots/go2/go2_adapter/go2_adapter/unitree_client.py": {
+      "upstream_path": "robot_deploy/src/robot_adapters/go2_adapter/go2_adapter/unitree_client.py",
+      "imported_sha256": "b0f1519f804187d6e1c840ce0f3282905a673384fcecac8005a5288dd31a1a88"
+    },
+    "src/navigation_agent/robots/go2/go2_adapter/go2_adapter/adapter_node.py": {
+      "upstream_path": "robot_deploy/src/robot_adapters/go2_adapter/go2_adapter/adapter_node.py",
+      "imported_sha256": "6b782188729cf3ef9f31b2a665ccebdada35430e783eb7ce36ea4d5d8b087ba1"
+    },
+    "src/navigation_agent/robots/go2/go2_adapter/resource/go2_adapter": {
+      "upstream_path": "robot_deploy/src/robot_adapters/go2_adapter/resource/go2_adapter",
+      "imported_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    "src/navigation_agent/robots/go2/vln_mpc/setup.py": {
+      "upstream_path": "robot_deploy/src/vln_mpc/setup.py",
+      "imported_sha256": "362716fb057ec2ffeaf15af69c7abb7dcc57a4af4ccd38aaf0427100cb3ff763"
+    },
+    "src/navigation_agent/robots/go2/vln_mpc/setup.cfg": {
+      "upstream_path": "robot_deploy/src/vln_mpc/setup.cfg",
+      "imported_sha256": "f412d6e7b628dbf383bb2353e029a33bc002b64c36d74ac073dc66b5a923b611"
+    },
+    "src/navigation_agent/robots/go2/vln_mpc/package.xml": {
+      "upstream_path": "robot_deploy/src/vln_mpc/package.xml",
+      "imported_sha256": "638f73b7db278b98b774c815013052fc09bd3d6ee0a7b2683f7e5a871c883eac"
+    },
+    "src/navigation_agent/robots/go2/vln_mpc/test/test_mpc.py": {
+      "upstream_path": "robot_deploy/src/vln_mpc/test/test_mpc.py",
+      "imported_sha256": "f22166bc333ff1f011871f54704e1de31881fe4e5e5c32837cc48bbfbabb9984"
+    },
+    "src/navigation_agent/robots/go2/vln_mpc/test/test_mpc_node.py": {
+      "upstream_path": "robot_deploy/src/vln_mpc/test/test_mpc_node.py",
+      "imported_sha256": "b7280869dd435e3e223bdee2c28afcd4f7ec9b17fb5fe28737a648b1317c6ab3"
+    },
+    "src/navigation_agent/robots/go2/vln_mpc/test/test_geometry.py": {
+      "upstream_path": "robot_deploy/src/vln_mpc/test/test_geometry.py",
+      "imported_sha256": "0a0c049c0fa782bb8f00d572066e5c3c75e95325db5068cf448e13a8729069a4"
+    },
+    "src/navigation_agent/robots/go2/vln_mpc/vln_mpc/__init__.py": {
+      "upstream_path": "robot_deploy/src/vln_mpc/vln_mpc/__init__.py",
+      "imported_sha256": "428e0f21ec675ca2b81d5dd2d08b3b3477078fa79c7cf0e7c8034f26392b7749"
+    },
+    "src/navigation_agent/robots/go2/vln_mpc/vln_mpc/geometry.py": {
+      "upstream_path": "robot_deploy/src/vln_mpc/vln_mpc/geometry.py",
+      "imported_sha256": "af72a6ebca4ff18b3d1a09b69583c431d6cbdd071c478945cbe9aa45690d3a14"
+    },
+    "src/navigation_agent/robots/go2/vln_mpc/vln_mpc/mpc.py": {
+      "upstream_path": "robot_deploy/src/vln_mpc/vln_mpc/mpc.py",
+      "imported_sha256": "fe97c24c6eb5ec443892ea8e6719493390a448ed036cebac1fcbd213c795c0a8"
+    },
+    "src/navigation_agent/robots/go2/vln_mpc/vln_mpc/mpc_node.py": {
+      "upstream_path": "robot_deploy/src/vln_mpc/vln_mpc/mpc_node.py",
+      "imported_sha256": "c73ad410965eb673638db26def47f4b8d7526edeae17798fc083a44bf79bf333"
+    },
+    "src/navigation_agent/robots/go2/vln_mpc/resource/vln_mpc": {
+      "upstream_path": "robot_deploy/src/vln_mpc/resource/vln_mpc",
+      "imported_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/navigation_agent/vln/lightnav/vln_client/setup.py": {
+      "upstream_path": "robot_deploy/src/vln_client/setup.py",
+      "imported_sha256": "00631c66a8e6f1f88cd93fd8d89b2025f5ce9cab969e1b8ded9a9a99a4b9804a"
+    },
+    "src/navigation_agent/vln/lightnav/vln_client/setup.cfg": {
+      "upstream_path": "robot_deploy/src/vln_client/setup.cfg",
+      "imported_sha256": "f20c26a5e4cdbee52542030d0af11ececc9a2fc8316c8ded0a489f14128784cf"
+    },
+    "src/navigation_agent/vln/lightnav/vln_client/package.xml": {
+      "upstream_path": "robot_deploy/src/vln_client/package.xml",
+      "imported_sha256": "1837824a2d504fd78a29ec630a4b158599632665e70263323369d2bf27b73a29"
+    },
+    "src/navigation_agent/vln/lightnav/vln_client/test/test_vln_client.py": {
+      "upstream_path": "robot_deploy/src/vln_client/test/test_vln_client.py",
+      "imported_sha256": "4ba530ba790650279f271b591ccb2ef29b273b34dd2cc36ddb15f81fd0c48bb0"
+    },
+    "src/navigation_agent/vln/lightnav/vln_client/vln_client/__init__.py": {
+      "upstream_path": "robot_deploy/src/vln_client/vln_client/__init__.py",
+      "imported_sha256": "2c6a9fabc1e4cce6c77a6a6f34cfb91ef526676744c61c2f7bd8ca2850771da1"
+    },
+    "src/navigation_agent/vln/lightnav/vln_client/vln_client/vln_client.py": {
+      "upstream_path": "robot_deploy/src/vln_client/vln_client/vln_client.py",
+      "imported_sha256": "3598531abd85327714c8607e56bf7412a1085b77b437ff7f8b7d86deb78ce278"
+    },
+    "src/navigation_agent/vln/lightnav/vln_client/vln_client/vln_node.py": {
+      "upstream_path": "robot_deploy/src/vln_client/vln_client/vln_node.py",
+      "imported_sha256": "aea157954f02e7ca6dcf8ea25157e02142def79a1b3ac7f9e6d7d53dd61ed9e8"
+    },
+    "src/navigation_agent/vln/lightnav/vln_client/resource/vln_client": {
+      "upstream_path": "robot_deploy/src/vln_client/resource/vln_client",
+      "imported_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    "src/navigation_agent/app/go2/vln_web/setup.py": {
+      "upstream_path": "robot_deploy/src/vln_web/setup.py",
+      "imported_sha256": "67e7a1ee0455187d8d2ef0828b20c5c2a591eec2d24b70aafd17e559aef1992f"
+    },
+    "src/navigation_agent/app/go2/vln_web/setup.cfg": {
+      "upstream_path": "robot_deploy/src/vln_web/setup.cfg",
+      "imported_sha256": "eaa32c63631bc28c255457a6c1de10f0d0264a56b45ae77a39b2e042af3c97cd"
+    },
+    "src/navigation_agent/app/go2/vln_web/package.xml": {
+      "upstream_path": "robot_deploy/src/vln_web/package.xml",
+      "imported_sha256": "b96a282a34836423a6593ef36214837aa41fd9a4eb156b98b7462067b4265df9"
+    },
+    "src/navigation_agent/app/go2/vln_web/test/test_wifi.py": {
+      "upstream_path": "robot_deploy/src/vln_web/test/test_wifi.py",
+      "imported_sha256": "4ace14f7a343d429ada8048919a87020206afa8c9dd21aa6d483026b51f18301"
+    },
+    "src/navigation_agent/app/go2/vln_web/test/test_web_server.py": {
+      "upstream_path": "robot_deploy/src/vln_web/test/test_web_server.py",
+      "imported_sha256": "12167529492ea7e2b08da86bc5564fa03a811c57a2aebda281088d71c9538974"
+    },
+    "src/navigation_agent/app/go2/vln_web/test/test_agent_interface.py": {
+      "upstream_path": "robot_deploy/src/vln_web/test/test_agent_interface.py",
+      "imported_sha256": "e66575e50f0bcf60cf17daf54185fe3aeb03313fc289c37dd8102bab3d899ef7"
+    },
+    "src/navigation_agent/app/go2/vln_web/test/test_web_node.py": {
+      "upstream_path": "robot_deploy/src/vln_web/test/test_web_node.py",
+      "imported_sha256": "35dd5fa7da4b5f4a4d49e01d65e91c48ce11a7e6b1b4a8651992506d3530ffc4"
+    },
+    "src/navigation_agent/app/go2/vln_web/vln_web/__init__.py": {
+      "upstream_path": "robot_deploy/src/vln_web/vln_web/__init__.py",
+      "imported_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/navigation_agent/app/go2/vln_web/vln_web/wifi.py": {
+      "upstream_path": "robot_deploy/src/vln_web/vln_web/wifi.py",
+      "imported_sha256": "ad7b043f6ee6888579c5beb48977ba391e1464c20760d5d12aaef8ba18d5c0f8"
+    },
+    "src/navigation_agent/app/go2/vln_web/vln_web/web_server.py": {
+      "upstream_path": "robot_deploy/src/vln_web/vln_web/web_server.py",
+      "imported_sha256": "58af79ad76ff72fca61500c8ef514bda9315c142ad83c513e3a5138130c8d566"
+    },
+    "src/navigation_agent/app/go2/vln_web/vln_web/web_node.py": {
+      "upstream_path": "robot_deploy/src/vln_web/vln_web/web_node.py",
+      "imported_sha256": "527bc6b5e35e1adeb1d7199165237a41d2ca5909742d6600fe2a893cdbdedb4d"
+    },
+    "src/navigation_agent/app/go2/vln_web/web/styles.css": {
+      "upstream_path": "robot_deploy/src/vln_web/web/styles.css",
+      "imported_sha256": "56b78a02713f19655f31f9fc12b75049e1c2d6c213ed2a95aabafebdcf6fe4de"
+    },
+    "src/navigation_agent/app/go2/vln_web/web/app.js": {
+      "upstream_path": "robot_deploy/src/vln_web/web/app.js",
+      "imported_sha256": "436b9aca72016643853e7d9998588b009cae9c5b517a14785f5227e90e8395f6"
+    },
+    "src/navigation_agent/app/go2/vln_web/web/index.html": {
+      "upstream_path": "robot_deploy/src/vln_web/web/index.html",
+      "imported_sha256": "9138fe047841c5fdceb40e5e4aa918a371a8d74141f3dbc4b21d95ebfe8cfc04"
+    },
+    "src/navigation_agent/app/go2/vln_web/resource/vln_web": {
+      "upstream_path": "robot_deploy/src/vln_web/resource/vln_web",
+      "imported_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/navigation_agent/app/go2/vln_bringup/CMakeLists.txt": {
+      "upstream_path": "robot_deploy/src/vln_bringup/CMakeLists.txt",
+      "imported_sha256": "fd24bb2c867e9afddeb716d2b5e1e7d14705e6af257652d354de4547679dfa31"
+    },
+    "src/navigation_agent/app/go2/vln_bringup/package.xml": {
+      "upstream_path": "robot_deploy/src/vln_bringup/package.xml",
+      "imported_sha256": "ccb475fa30de0f89b237e8eb040ed852229b04ef136a99340d26e513963d2be0"
+    },
+    "src/navigation_agent/app/go2/vln_bringup/launch/go2.launch.py": {
+      "upstream_path": "robot_deploy/src/vln_bringup/launch/go2.launch.py",
+      "imported_sha256": "aaf68fa261a131194e633991a0a9c9151f8936fbb482072355bc317a5d51b780"
+    }
+  }
+}

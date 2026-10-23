@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent 执行监控</title>
+<style>
+  :root {color-scheme:light;font-family:system-ui,sans-serif;background:#f5f1e8;color:#393631}
+  [hidden] {display:none !important}
+  * {box-sizing:border-box} body {max-width:1440px;margin:auto;padding:24px}
+  header,.row {display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  h1 {font-size:24px;margin:0} h2 {font-size:16px;margin:0 0 12px}
+  p {line-height:1.6} a {color:#805f43} .muted {color:#797064;font-size:14px}
+  main {display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,1fr);gap:20px;margin-top:20px}
+  section {background:#fffdf7;border:1px solid #d8cfbf;border-radius:12px;padding:20px;min-width:0;margin-bottom:20px}
+  .stage {background:#080e16;aspect-ratio:4/3;position:relative;display:grid;place-items:center;border-radius:8px;overflow:hidden}
+  #camera {width:100%;display:block} #camera.stale {opacity:.25}
+  #camera-message {position:absolute;padding:18px;background:#f5f1e8db;border-radius:8px;text-align:center}
+  #camera-message[hidden] {display:none}
+  select,textarea,input,button {font:inherit;background:#f5f1e8;color:inherit;padding:10px;border:1px solid #b7a995;border-radius:6px;max-width:100%}
+  textarea {width:100%;resize:vertical;min-height:100px;margin:8px 0 12px}
+  [hidden] {display:none !important}
+  #navigation-time-limit-enabled {accent-color:#85674d;margin:12px 8px 12px 0}
+  label {display:block;font-size:14px} input[type=number] {width:100%;margin-top:6px}
+  .limits {display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+  button {cursor:pointer} button:disabled {opacity:.5;cursor:default}
+  button.primary {color:#fffdf7;background:#85674d;border-color:#85674d} button.danger {border-color:#a46f63;color:#8d4c3e}
+  button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible {outline:2px solid #805f43;outline-offset:2px}
+  #command-message {min-height:1.6em;white-space:pre-wrap} #robot {min-height:3.2em}
+  #goal {font-size:20px;margin-bottom:8px} #summary {color:#805f43;white-space:pre-wrap}
+  #observation {max-width:100%;max-height:240px;border-radius:6px}
+  #events {max-height:480px;overflow:auto;padding-left:24px;font-size:14px}
+  #events li {padding:8px 0;border-bottom:1px solid #d8cfbf;white-space:pre-wrap;overflow-wrap:anywhere}
+  #decision {white-space:pre-wrap;line-height:1.7} .error {color:#9c4d43}
+  .motor-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .motor {background:#f5f1e8;border:1px solid #d8cfbf;border-radius:6px;padding:10px;font-size:13px}
+  .motor strong {display:block;font-size:20px;margin-top:4px}.warm {color:#946b32}.hot {color:#a2443c}.stale-data {opacity:.45}
+  details summary {cursor:pointer;font-size:16px;font-weight:600;padding-bottom:12px}
+  fieldset {border:1px solid #d8cfbf;border-radius:8px;margin:12px 0;padding:12px}
+  .setting-grid {display:grid;grid-template-columns:1fr 1fr;gap:12px}.actual {font-size:12px;color:#797064;display:block;margin-top:5px}
+  .wide-setting {grid-column:1/-1}.wide-setting input,.wide-setting textarea {width:100%;margin-top:6px}
+  #prompt-preview {white-space:pre-wrap;overflow-wrap:anywhere}
+  #settings-message {white-space:pre-wrap;line-height:1.5;min-height:1.5em}
+  @media(max-width:850px) {main{grid-template-columns:1fr}body{padding:14px}}
+
+.event-frames {display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.event-frames button,.event-frames a {display:block;width:170px;max-width:45%;padding:0;border:0;background:none;text-align:left;text-decoration:none}
+.event-frames img {display:block;width:100%;aspect-ratio:16/9;object-fit:contain;border:1px solid #c8bfaf;border-radius:6px}
+.event-frames span {display:block;font-size:11px;color:#777267;margin-top:3px}
+.instruction {color:#655340;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+</style>
+<header><h1>Agent 执行监控</h1><div class="row"><button id="pause" type="button" aria-pressed="false">暂停画面与日志更新</button><a href="/docs">接口文档 ↗</a></div></header>
+<p class="muted" id="monitor-mode">实时监控中 · 页面仅更新变化内容</p>
+<main>
+  <div>
+    <section>
+      <div class="row"><h2>本体实时画面</h2><span class="muted" id="camera-time">等待画面</span></div>
+      <div class="stage"><canvas id="camera" width="640" height="480" role="img" aria-label="本体实时相机"></canvas><div id="camera-message">正在连接相机…</div></div>
+      <p class="muted" id="robot">正在读取本体状态…</p>
+      <p class="muted" id="safety">等待本体安全状态…</p>
+    </section>
+    <section>
+      <div class="row"><h2>电机温度</h2><strong id="motor-max">最高温度 —</strong></div>
+      <p id="motor-status" class="muted">等待温度数据</p><div id="motor-grid" class="motor-grid"></div>
+      <p class="muted">沿用本体网页颜色提示：≥55°C 偏高，≥75°C 高温。</p>
+    </section>
+    <section><h2>关键节点</h2><p id="events-state" class="muted">等待任务</p><ol id="events"></ol></section>
+  </div>
+  <div>
+    <section>
+      <h2>下发任务</h2>
+      <form id="task-form">
+        <label for="goal-input">希望 GO2 完成什么任务？</label>
+        <textarea id="goal-input" required maxlength="1000" placeholder="例如：找到沙发，走到沙发附近后停下。"></textarea>
+        <div class="limits"><label>最多决策步数<input id="max-steps" type="number" min="1" step="1" required></label><label>时间预算（秒）<input id="max-seconds" type="number" step="1" required></label></div>
+        <p id="budget-note" class="muted">预算从已保存的默认设置读取；此处可覆盖本次任务。</p>
+        <label><input id="navigation-time-limit-enabled" type="checkbox" autocomplete="off">启用单段导航超时（仅本次任务）</label>
+        <label id="navigation-limit" hidden>本次单段导航时限（秒）<input id="navigation-seconds" type="number" step="any" required disabled></label>
+        <p id="navigation-unlimited" class="muted" hidden>单段导航不限时；仍受任务总预算与导航保护约束。</p>
+        <div class="row"><button id="start" class="primary" type="submit" disabled>开始任务</button><button id="cancel-task" class="danger" type="button" disabled>取消当前任务</button></div>
+      </form>
+      <p class="muted">开始任务会驱动本体。暂停页面更新不会暂停机器人；停止任务请使用“取消当前任务”。</p>
+      <p id="command-message" role="status" aria-live="polite"></p>
+    </section>
+    <section>
+      <details id="motion-panel"><summary>运行参数（运动、Agent 与 VLN）</summary>
+        <p class="muted">停止任务并释放控制后可保存。MPC 和本体限速立即应用并确认；其余参数在下次任务生效，重启后保留。</p>
+        <p class="muted">保护阈值用于停车和数据有效性检查；自定义障碍距离仍需本体传感器支持。脱困次数不代表 GO2 已支持沿原路退回。</p>
+        <p id="prompt-preview" class="muted"></p>
+        <form id="settings-form"><div id="settings-fields"></div>
+          <div class="row"><button id="settings-save" class="primary" type="submit" disabled>保存并应用</button><button id="settings-load" type="button">重新读取</button></div>
+        </form><p id="settings-message" role="status" aria-live="polite">正在读取参数…</p>
+      </details>
+    </section>
+    <section>
+      <h2>历史任务与当前状态</h2>
+      <select id="task-select" aria-label="历史任务"><option value="">自动跟随最新任务</option></select>
+      <p id="connection" class="muted">正在连接 Agent…</p>
+      <p id="goal">暂无任务</p><p id="status"></p><p id="summary"></p>
+      <div class="row"><a id="record-link" target="_blank" rel="noopener" hidden>查看任务摘要 ↗</a><a id="replay-link" target="_blank" rel="noopener" hidden>录像与历史回放 ↗</a></div>
+    </section>
+    <section><h2>最近一次决策</h2><div id="decision">等待模型决策</div></section>
+    <section><h2>Agent 决策时看到的图像</h2><img id="observation" alt="最近一次决策观测图" hidden><p class="muted">这是停车后用于决策的观测帧；左侧显示本体当前画面。</p></section>
+  </div>
+</main>
+<script src="/monitor/app.js" defer></script>
+</html>

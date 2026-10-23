@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="3">
+  <!-- Novaxis: retain Go2 launch dependencies; remove the TRON adapter. -->
+  <name>vln_bringup</name>
+  <version>0.1.0</version>
+  <description>Launch and configuration package for vln_deploy.</description>
+  <maintainer email="xiaoyang@lightrobo.com">xiaoyang</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>go2_adapter</exec_depend>
+  <exec_depend>orbbec_camera</exec_depend>
+  <exec_depend>orbbec_description</exec_depend>
+  <exec_depend>vln_client</exec_depend>
+  <exec_depend>vln_mpc</exec_depend>
+  <exec_depend>vln_web</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

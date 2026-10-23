@@ -1,0 +1,90 @@
+# 公共 Agent 配置；相对路径以本文件所在目录为准。
+[selective]
+max_interventions = 16
+stationary_window_s = 8.0
+stationary_distance_m = 0.05
+stationary_turn_degrees = 10.0
+
+[harness]
+evidence_completion = true
+capture_interval_s = 1.0
+continued_viewpoint_scale = 2.0
+preserve_same_instruction_history = true
+
+[llm]
+provider = "dashscope"
+model = "qwen3.8-max-0902"
+base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+api_key_env = "DASHSCOPE_API_KEY"
+max_tokens = 2200
+request_timeout_s = 45.0
+# 只纠正同一观察的非法输出，不重试网络或机器人动作。
+format_retries = 1
+enable_thinking = false
+
+[prompt]
+algorithm_path = "prompts/scheduling.md"
+path = "prompts/common.md"
+reload_each_step = true
+
+[task_defaults]
+max_steps = 300
+max_seconds = 300
+
+[task_limits]
+min_seconds = 10
+max_seconds = 900
+min_navigation_seconds = 1.0
+max_navigation_seconds = 60.0
+
+[execution]
+# 完成前结合当前停车图、历史图片和本轮记忆独立核验；默认开启，修改后重启 Agent。
+verify_completion = true
+navigation_seconds = 15.0
+max_consecutive_navigation_errors = 3
+max_unfinished_candidates = 8
+
+[exploration]
+# 局部观察位移上限；已有进展且继续同一子目标时使用 harness 中的倍率。
+viewpoint_max_displacement_m = 1.5
+# 覆盖仅用于观察摘要，不再强制完成一圈。
+scan_max_heading_gap_deg = 75.0
+max_recovery_attempts = 2
+# 目标丢失后最多执行的局部找回动作数；重新看见后清零。
+max_target_reacquire_actions = 4
+max_candidate_failures = 2
+scan_reset_distance_m = 0.25
+failed_displacement_m = 0.15
+stuck_displacement_m = 0.08
+
+[observation]
+same_view_angle_deg = 25.0
+
+[memory]
+# 停车后用原图核对房间和已走入口身份；只补视觉证据，不生成动作。
+compare_regions_when_stopped = true
+# 完整经历保存在本地，模型只接收最近动作及少量未解决的重复提示。
+max_trajectory_actions = 5
+max_trajectory_hints = 3
+same_view_angle_deg = 25.0
+place_radius_m = 0.75
+nearby_radius_m = 3.0
+heading_bin_deg = 30.0
+max_places = 8
+max_semantic_frames = 4
+max_objects = 6
+max_reviews = 3
+
+[storage]
+runs_dir = "../runs"
+utc_offset_minutes = 480
+max_error_output_chars = 12000
+
+# 检测采样策略；服务地址配置在所选后端 TOML 的 [target_watch] 中。
+# 独立 Agent 没有后端配置时，可在本节另填 server_url；默认关闭。
+[target_watch]
+frame_interval_s = 0.2
+request_timeout_s = 1.0
+max_frame_age_s = 1.0
+confidence = 0.25
+min_consistent_frames = 2

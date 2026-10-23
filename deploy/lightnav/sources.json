@@ -1,0 +1,12 @@
+{
+  "revision": "d83fbfb9748ca6b497a2f2a7f4a3e95e2110e40c",
+  "sha256": {
+    "src/lightnav/inference/policies.py": "05c6a37b11911498d25812a2320084994a0fefd965ca883c7f55c8dbf8b57c03",
+    "src/lightnav/serving/ws_server.py": "303cdb777e911087b62f6545b8da8e391c132ee9dbc9c622cb5627dc80e60701",
+    "src/lightnav/serving/tracking_service.py": "88a1912ce2b3ad7dede12c28f08475bbb9115756c3e5cd9b8e6018768fe17add",
+    "src/lightnav/data_processor.py": "3feb92fa0b0e02d1de0ec12446cf769efd3000cfece83a410250e403fa1f551a",
+    "src/lightnav/processing.py": "470c1bc84bce40648105492e5b1b657bfe5cc49fec1c192bed27649add18684c"
+  },
+  "model_repository": "LightOriginsHQ/LightNav-0",
+  "model_revision": "826dc5fbfa37afa8293d2e336d329b6ffc0bfb64"
+}

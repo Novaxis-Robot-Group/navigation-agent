@@ -1,0 +1,19 @@
+# 仅补检测依赖；PyTorch、TorchVision、OpenCV 与 HTTP 运行库由基础镜像提供。
+ultralytics==8.4.175
+lap==0.5.13
+clip @ git+https://github.com/ultralytics/CLIP.git@7ffa84b3bfa40c42ecc1c77147a855e69cb2dd40
+ftfy==6.3.1
+wcwidth==0.9.2
+ultralytics-thop==2.2.2
+ultralytics-platform==0.1.83
+polars==2.0.0
+polars-runtime-32==2.0.0
+matplotlib==3.11.2
+contourpy==1.3.3; python_version < "3.12"
+contourpy==1.4.0; python_version >= "3.12"
+cycler==0.12.1
+fonttools==4.66.1
+kiwisolver==1.5.1
+pyparsing==3.3.3
+python-dateutil==2.9.0.post0
+six==1.17.0

@@ -1,0 +1,89 @@
+"""机器人感知与执行契约；不包含模型名称或模型私有协议。"""
+
+from __future__ import annotations
+
+from collections.abc import Callable
+from dataclasses import dataclass
+from typing import Literal, Protocol
+
+from navigation_agent.contracts.agent_backend import ActionResult, Observation, Pose, TelemetrySink
+
+
+@dataclass(frozen=True)
+class RobotStatus:
+    manual: bool
+    automatic: bool
+    locked: bool
+    blocked: bool
+    error: str = ''
+
+
+@dataclass(frozen=True)
+class MotionSample:
+    monotonic_s: float
+    pose: Pose
+    blocked: bool
+
+
+class Robot(Protocol):
+    """动作返回前停车；取消和退出只清理本连接拥有的运动。"""
+
+    telemetry: TelemetrySink | None
+    look_angle_deg: float
+    sample_sink: Callable[[MotionSample], None] | None
+
+    async def __aenter__(self) -> Robot: ...
+    async def __aexit__(self, exc_type, exc, traceback) -> None: ...
+    def require_control(self) -> None: ...
+    def status(self) -> RobotStatus: ...
+    def begin_motion(self, action: str) -> None: ...
+    def end_motion(self) -> None: ...
+    async def wait_update(self) -> None: ...
+    async def observe(self) -> tuple[bytes, Observation]: ...
+    async def look(self, direction: Literal['left', 'right'], *, angle_deg: float | None = None) -> ActionResult:
+        """相对转向；angle_deg 为 (0, 90] 度，省略时用 look_angle_deg。
+
+        停车后返回 turned 或失败原因；控制权丢失抛 ToolError，取消只停止自己拥有的运动。
+        """
+        ...
+    async def recover(self) -> ActionResult: ...
+    async def hold(self) -> None: ...
+
+
+@dataclass(frozen=True)
+class CameraFrame:
+    """JPEG 与采图时身体位姿绑定；平面位姿单位为米、弧度。"""
+
+    stamp_ns: int
+    jpeg: bytes
+    pose: tuple[float, float, float]
+
+
+class MotionExecutor(Protocol):
+    """服务侧执行器；自身负责局部避障，保留采图坐标到任务坐标的转换。"""
+
+    control_period_s: float
+
+    def frame(self) -> CameraFrame | None: ...
+    def accept_path(self, waypoints, capture_pose) -> tuple[float, float]: ...
+    def poll(self) -> tuple[float, float] | None: ...
+    def submit(self) -> None: ...
+    def drive(self, command: tuple[float, float]) -> None: ...
+    def reset(self) -> None: ...
+    def fail(self, message: str) -> None: ...
+    def close(self) -> None: ...
+    def diagnostics(self) -> dict: ...
+
+
+class RobotService(Protocol):
+    """控制服务的数据源；snapshot 字段见接口文档，不暴露 ROS 类型。"""
+
+    robot_name: str
+
+    def frame(self) -> CameraFrame | None: ...
+    def third_person_frame(self) -> CameraFrame | None: ...
+    def snapshot(self) -> dict: ...
+    def set_velocity(self, linear: float, angular: float) -> None: ...
+    def start(self) -> None: ...
+    def stop(self) -> None: ...
+    def reset(self) -> None: ...

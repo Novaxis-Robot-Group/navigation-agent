@@ -1,0 +1,6 @@
+torch==2.10.0+cu130
+torchvision==0.25.0+cu130
+torchaudio==2.10.0+cu130
+vllm==0.19.1+cu130
+transformers==5.8.0
+nvidia-cutlass-dsl==4.5.2

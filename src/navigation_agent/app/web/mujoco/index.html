@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3f2ee" />
+    <title>Nav / Agent · 探索工作台</title>
+    <link rel="stylesheet" href="/console-static/style.css?v=4" />
+    <script src="/console-static/app.js?v=8" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="探索工作台首页"
+        ><span class="brand-mark">↗</span
+        ><span>nav<span class="brand-slash">/</span>agent<small>探索工作台</small></span></a
+      >
+      <div class="service-list" aria-label="服务状态">
+        <span class="service" id="service-sim"><i></i>仿真 <b>连接中</b></span>
+        <span class="service" id="service-agent"><i></i>Agent <b>检测中</b></span>
+        <span class="service" id="service-vln"><i></i>LightNav <b>检测中</b></span>
+      </div>
+      <button class="danger stop-all" id="emergency">■ 停止所有运动 <kbd>Space</kbd></button>
+    </header>
+    <main class="workspace">
+      <div class="page-heading">
+        <div>
+          <span class="eyebrow">LOCAL EXPLORATION LAB</span>
+          <h1>给一个目标，看它如何探索。</h1>
+        </div>
+        <span class="scene-tag" id="scene">MuJoCo · 室内仿真</span>
+      </div>
+      <div id="connection-alert" class="notice" role="status" hidden></div>
+      <div class="main-grid">
+        <section class="viewer panel" aria-label="机器人实时画面">
+          <div class="panel-heading">
+            <div class="section-title">
+              <i class="live-dot"></i>
+              <h2>现场视图</h2>
+              <span class="muted" id="camera-label">机器人第一视角</span>
+            </div>
+            <div class="viewer-actions">
+              <div class="segmented">
+                <button class="selected" id="view-first">第一视角</button
+                ><button id="view-third">第三视角</button>
+              </div>
+              <button
+                class="icon-button"
+                id="snapshot"
+                title="保存当前画面"
+                aria-label="保存当前画面"
+              >
+                ↓</button
+              ><button
+                class="icon-button"
+                id="fullscreen"
+                title="全屏现场视图"
+                aria-label="全屏现场视图"
+              >
+                ⛶
+              </button>
+            </div>
+          </div>
+          <div class="camera-stage" id="camera-stage">
+            <img id="camera" alt="机器人实时第一视角画面" />
+            <div class="camera-empty" id="camera-empty">
+              <span class="empty-orbit">◎</span>
+              <h3>等待相机画面</h3>
+              <p>仿真加载完成后，画面会自动出现在这里</p>
+            </div>
+            <div class="camera-top">
+              <span class="camera-chip"><i></i> LIVE</span
+              ><span class="camera-chip" id="motion-state">等待连接</span>
+            </div>
+            <button class="pip" id="pip" title="切换主视角">
+              <img id="camera-secondary" alt="辅助第三视角画面" /><span id="pip-label"
+                >第三视角 ↗</span
+              >
+            </button>
+            <div class="camera-bottom">
+              <span id="camera-caption">当前第一视角也会提供给 Agent 进行观察</span
+              ><span id="clock">00:00</span>
+            </div>
+          </div>
+          <div class="metrics">
+            <div><span>移动速度</span><strong id="metric-speed">—</strong><small>m/s</small></div>
+            <div><span>朝向</span><strong id="metric-yaw">—</strong><small>°</small></div>
+            <div><span>相机帧率</span><strong id="metric-fps">—</strong><small>fps</small></div>
+            <div><span>导航推理</span><strong id="metric-latency">—</strong><small>ms</small></div>
+          </div>
+          <div class="manual-strip">
+            <div>
+              <strong>手动驾驶</strong
+              ><span class="muted" id="manual-hint">接管后使用 WASD 或方向按钮</span>
+            </div>
+            <div class="drive-buttons" aria-label="手动方向控制">
+              <button data-key="a" aria-label="向左转">←</button
+              ><button data-key="w" aria-label="向前走">↑</button
+              ><button data-key="s" aria-label="向后退">↓</button
+              ><button data-key="d" aria-label="向右转">→</button>
+            </div>
+            <button id="takeover" class="secondary">手动接管</button
+            ><button id="reset" class="text-button">重置场景</button>
+          </div>
+          <details class="direct-nav">
+            <summary>直接导航 <span>使用 LightNav 执行一段路线指令</span></summary>
+            <form id="direct-form">
+              <label for="direct-instruction">导航指令（英文）</label>
+              <div class="direct-row">
+                <input
+                  id="direct-instruction"
+                  maxlength="500"
+                  placeholder="Go to the silver trash bin."
+                  required
+                /><button class="secondary" id="direct-start">执行导航</button>
+              </div>
+              <label for="direct-seconds">运行时限（秒）</label>
+              <input id="direct-seconds" type="number" min="1" max="7200" step="any" placeholder="留空不限时">
+              <p class="muted" id="direct-status">此模式直接调用导航模型，不使用上层 Agent。</p>
+            </form>
+          </details>
+        </section>
+        <aside class="task-column">
+          <section class="panel task-panel">
+            <div class="panel-heading">
+              <div class="section-title">
+                <span class="section-icon">✦</span>
+                <h2>探索任务</h2>
+              </div>
+              <span class="subtle-tag">AGENT</span>
+            </div>
+            <form id="task-form">
+              <label for="goal">你希望机器人完成什么？</label>
+              <textarea
+                id="goal"
+                rows="3"
+                maxlength="1000"
+                placeholder="例如：找到棕色沙发"
+                required
+              ></textarea>
+              <div class="presets">
+                <button type="button" data-goal="找到棕色沙发">找到棕色沙发</button
+                ><button type="button" data-goal="环视周围，描述当前能看到的主要家具，不要向前移动">
+                  环视周围
+                </button>
+              </div>
+              <details class="budget">
+                <summary>执行预算 <span id="budget-summary">正在读取配置</span></summary>
+                <div class="budget-inputs">
+                  <label
+                    >决策轮数<input
+                      id="max-steps"
+                      type="number"
+                      min="1"
+
+                      required /></label
+                  ><label
+                    >最长运行时间（秒）<input
+                      id="max-seconds"
+                      type="number"
+
+
+
+                      required
+                  /></label>
+                <label id="navigation-limit" hidden>本次单段导航时限（秒）
+                  <input id="navigation-seconds" type="number" step="any" required disabled>
+                </label>
+                </div>
+                <label class="navigation-timeout-toggle"><input id="navigation-time-limit-enabled" type="checkbox" autocomplete="off">启用单段导航超时（仅本次任务）</label>
+                <p id="navigation-unlimited" class="muted helper" hidden>单段导航不设固定时限；仍受任务总预算与导航保护约束。</p>
+              </details>
+              <button id="start-task" class="primary full" type="submit">↗ 开始探索</button>
+              <p id="start-hint" class="muted helper">启动前自动检查服务状态</p>
+            </form>
+          </section>
+          <section class="panel progress-panel" aria-live="polite">
+            <div class="panel-heading">
+              <h2>任务进展</h2>
+              <span id="task-badge" class="status-badge">待命</span>
+            </div>
+            <div id="task-empty" class="task-empty">
+              <span>⌁</span>
+              <h3>准备好出发了</h3>
+              <p>输入目标后，Agent 会观察环境、选择方向，并调用导航。</p>
+            </div>
+            <div id="task-progress" hidden>
+              <p class="current-goal" id="current-goal"></p>
+              <div class="progress-meta">
+                <span id="step-label">第 0 / 30 轮</span><span id="elapsed">00:00</span>
+              </div>
+              <progress id="task-meter" value="0" max="30"></progress>
+              <div class="phases">
+                <span data-phase="observing">观察</span><b>→</b
+                ><span data-phase="deciding">决策</span><b>→</b><span data-phase="acting">行动</span
+                ><b>→</b><span data-phase="stopped">结果</span>
+              </div>
+              <div class="decision-box">
+                <span class="eyebrow" id="decision-label">当前状态</span>
+                <p id="decision-reason">正在准备</p>
+                <small id="decision-instruction"></small>
+              </div>
+              <p id="result-summary" class="result-summary" hidden></p>
+              <p id="task-model" class="muted model-caption"></p>
+              <button id="cancel-task" class="secondary full">结束当前任务</button>
+            </div>
+          </section>
+        </aside>
+      </div>
+      <section class="panel activity-panel">
+        <div class="activity-heading">
+          <div class="tabs" role="tablist">
+            <button id="tab-activity" role="tab" aria-selected="true" class="selected">
+              关键节点 <span id="event-count">0</span></button
+            ><button id="tab-history" role="tab" aria-selected="false">
+              历史任务 <span id="history-count">0</span>
+            </button>
+          </div>
+          <div class="activity-actions">
+            <span id="viewing-label" class="muted">实时更新</span
+            ><button id="return-current" class="text-button" hidden>回到当前任务</button
+            ><a id="task-replay-link" class="report-link" target="_blank" rel="noopener" hidden>录像回放 ↗</a
+            ><a id="task-log-link" class="report-link" target="_blank" rel="noopener" hidden>任务摘要 ↗</a
+            ><a id="task-memory-link" class="report-link" target="_blank" rel="noopener" hidden>Memory ↗</a
+            ><button id="export" class="secondary" disabled>↓ 导出记录</button>
+          </div>
+        </div>
+        <div id="activity-view" role="tabpanel">
+          <div id="events-empty" class="empty-records">
+            <span>≡</span>
+            <div>
+              <strong>每一步，都有迹可循</strong>
+              <p>这里将展示观察画面、行动理由和导航结果。</p>
+            </div>
+          </div>
+          <ol id="events" class="timeline"></ol>
+        </div>
+        <div id="history-view" role="tabpanel" hidden>
+          <label for="history-mode">记录类型</label>
+          <select id="history-mode"><option value="all">全部</option><option value="agent">Agent</option><option value="vln">VLN</option></select>
+          <div id="history-empty" class="empty-records">
+            <span>◷</span>
+            <div>
+              <strong>还没有历史任务</strong>
+              <p>完成一次探索后，结果会保存在这里。</p>
+            </div>
+          </div>
+          <div id="history-list" class="history-list"></div>
+        </div>
+      </section>
+      <footer>
+        <span><i class="live-dot"></i>本地仿真 · 云端决策</span
+        ><span>任务完成由视觉模型判断，执行记录可随时复查。</span>
+      </footer>
+    </main>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <dialog id="confirm-dialog">
+      <h2 id="confirm-title"></h2>
+      <p id="confirm-text"></p>
+      <div class="dialog-actions">
+        <button id="confirm-no" class="secondary">取消</button
+        ><button id="confirm-yes" class="primary">确认</button>
+      </div>
+    </dialog>
+    <dialog id="image-dialog" class="image-dialog">
+      <div class="panel-heading">
+        <h2>Agent 当时看到的画面</h2>
+        <button id="close-image" class="icon-button" aria-label="关闭观察画面">×</button>
+      </div>
+      <img id="observation-image" alt="历史观察画面" />
+      <p id="observation-caption" class="muted"></p>
+    </dialog>
+  </body>
+</html>
