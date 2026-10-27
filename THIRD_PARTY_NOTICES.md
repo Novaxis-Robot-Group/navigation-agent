@@ -23,3 +23,37 @@ MuJoCo 客户端、仿真库和场景通过固定提交的 `vln-mujoco` 安装�
 Go2 镜像安装 ROS 2 Humble、Unitree SDK2 Python、Orbbec ROS 驱动、CasADi 等依赖。它们不随本仓库源码分发：Unitree SDK 为 BSD-3-Clause；Orbbec ROS 包含单独许可的 SDK 二进制；CasADi 使用 LGPL。构建和分发镜像时仍需保留各依赖的许可要求。
 
 模型服务器及权重由使用者另外部署，遵循所用项目与检查点的许可。上述说明不会将第三方软件、资产或权重重新许可为本项目自有代码。
+
+## 架构图中的机械狗素材
+
+`docs/assets/architecture.svg` 内嵌的机械狗图片复用 Navigation Agent 官网渲染素材。模型来自 [MuJoCo Menagerie 的 Unitree Go2](https://github.com/google-deepmind/mujoco_menagerie/tree/f3b6013629c7b94f8ee93fd977b161fa8350f9bc/unitree_go2)，材质、灯光、姿态与渲染由 Navigation Agent Website 制作。模型保留以下 BSD-3-Clause 许可。
+
+```text
+Copyright (c) 2016-2022 HangZhou YuShu TECHNOLOGY CO.,LTD. ("Unitree Robotics")
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+```

@@ -39,7 +39,7 @@
     },
     "THIRD_PARTY_NOTICES.md": {
       "mode": "100644",
-      "sha256": "add537d4589d3314ea75db9ed7d054f61391ae4e417ad19bdf3d3dc9d5d7cd5d"
+      "sha256": "83063cbfd84221b88c3acc4b945a6c5cc753d983ff436c0d6ed47c5b39b9620a"
     },
     "configs/agent.toml": {
       "mode": "100644",
@@ -223,7 +223,7 @@
     },
     "docs/assets/architecture.svg": {
       "mode": "100644",
-      "sha256": "0af9cd978fc3029c30a60a9f2937fc7eaa8dae174e1fcec988da6fdd4bd489e3"
+      "sha256": "e245447cf486151d92034a29fb84d88bdc521548ab1758f58ace849d29b333df"
     },
     "docs/en/configuration.md": {
       "mode": "100644",

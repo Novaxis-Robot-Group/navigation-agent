@@ -1,51 +1,36 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="878" height="204" viewBox="0 0 878 204" role="img" aria-labelledby="title description">
   <title id="title">Navigation Agent 工程架构</title>
   <desc id="description">统一 Agent 连接独立的导航模型与执行后端适配器。内置 LightNav、Go2 和 MuJoCo；虚线 Custom 插槽表示待实现和验证的扩展点，连线不表示执行顺序。</desc>
-  <!-- 复用官网原始 SVG 图形：https://novaxis-robot-group.github.io/navigation-agent-site/#architecture；仅调整静态布局、字号与主题配色。 -->
+  <!-- 复用官网原始 SVG 图形：https://novaxis-robot-group.github.io/navigation-agent-site/#architecture；复用当前图元与机械狗渲染图，仅调整为 README 静态布局。机械狗来源与 BSD-3-Clause 许可见 THIRD_PARTY_NOTICES.md。 -->
   <style>
-    text { font-family: Arial, Helvetica, sans-serif; text-anchor: middle; fill: #465550; font-size: 16px; }
-    .heading { font-size: 14px; letter-spacing: 1.5px; }
+    text { font-family: Arial, Helvetica, sans-serif; text-anchor: middle; fill: #5e6a67; font-size: 16px; }
+    .heading { font-size: 14px; letter-spacing: 1.12px; }
     .agent { fill: #2c3531; font-size: 20px; font-weight: 600; }
     .module { stroke-width: 1.3; }
-    .architecture-slot { fill: #ffffff; stroke: #cbd5d0; }
+    .architecture-slot { fill: #ffffff; stroke: #e1e5e1; }
     .architecture-extension { stroke: #526a7a; stroke-width: 1.4; }
+    .custom { opacity: .6; }
     .custom .architecture-slot { fill: none; stroke: #526a7a; stroke-dasharray: 4 5; }
-    .custom { opacity: .75; }
-    .simulation { stroke-dasharray: 3 3; }
-    .simulation .architecture-slot { stroke-dasharray: none; }
-    .scene-grid { fill: none; stroke: #cbd5d0; stroke-width: .9; opacity: .75; }
+    .architecture-network-links { fill: none; stroke: #829aab; stroke-width: 1; opacity: .45; }
+    .architecture-network-nodes { fill: #ffffff; stroke: #486562; stroke-width: 1.5; }
+    .architecture-network-hidden { fill: #7d9d9c; stroke-width: 1; }
+    .architecture-cart { stroke: #486562; stroke-width: 1.5; stroke-linejoin: round; }
+    .architecture-cart-dark { fill: #2c3531; }
+    .architecture-cart-rim { fill: #486562; }
+    .architecture-cart-disc { fill: #7d9d9c; }
     .scene-shadow { fill: #7d9d9c; opacity: .1; stroke: none; }
     .scene-top { fill: #ffffff; stroke: #486562; }
     .scene-side { fill: #7d9d9c; fill-opacity: .3; stroke: #486562; }
-    .scene-leg { fill: none; stroke: #486562; stroke-width: 2.8; }
-    .scene-led { fill: #486562; stroke: none; }
     .scene-circuit { fill: none; stroke: #829aab; stroke-width: 1.2; }
     .scene-core-light { fill: #7d9d9c; stroke: none; }
     .joint { stroke: #829aab; stroke-width: 1; }
     .socket { fill: #ffffff; stroke: #7d9d9c; }
-    @media (prefers-color-scheme: dark) {
-      text { fill: #b9c9c4; }
-      .agent { fill: #e6edf3; }
-      .architecture-slot { fill: #0d1117; stroke: #43544e; }
-      .architecture-extension, .custom .architecture-slot { stroke: #a5b9c7; }
-      .custom .architecture-slot { fill: none; }
-      .scene-grid { stroke: #43544e; }
-      .scene-shadow, .scene-side, .scene-core-light { fill: #91b2af; }
-      .scene-top { fill: #0d1117; stroke: #b0ceca; }
-      .scene-side, .scene-leg { stroke: #b0ceca; }
-      .scene-led { fill: #b0ceca; }
-      .scene-circuit, .joint { stroke: #9aafbd; }
-      .socket { fill: #0d1117; stroke: #91b2af; }
-    }
   </style>
+  <rect width="878" height="204" fill="#eef1ed"/>
   <defs>
 <g id="scene-robot">
-            <ellipse class="scene-shadow" cx="0" cy="28" rx="43" ry="20"/>
-            <path class="scene-leg" d="M-23-2-34 17-30 32M-7 8-13 29-7 37M19-4 30 15 27 29M30-12 40 4 39 18"/>
-            <path class="scene-top" d="M-29-14 3-32 32-15 0 4Z"/>
-            <path class="scene-side" d="M-29-14V5L0 22 32 4V-15L0 4V22"/>
-            <path class="scene-top" d="m1-28 14 8-11 7-14-8Z"/>
-            <circle class="scene-led" cx="10" cy="-21" r="2"/>
+            <ellipse class="scene-shadow" cx="0" cy="28" rx="23.2960" ry="11.6480"/>
+            <image class="scene-robot-image" href="data:image/webp;base64,UklGRoAfAABXRUJQVlA4WAoAAAAQAAAA/wEAfwEAQUxQSEsHAAABoBiAbdxIUmkoDZ2hNO7dZTO2JIPQfY4IWbDtxm1zCYwQWrVVQCtXfY/jT6//vP7z+s/rP6//vP7z+s/rP6//vP7ztymA/kwliYRZh1Gqj/SXx2LLUf2USNsOKzKynGuJDuFlj4XFR+w8xw+3PJZV7p0keMutqgAFdTfRnAZosO4n+ngk+jgPSuKfCRia4bGQ1F/4oOt7WIJCf+HD52exityFD6r1CRlqFR6bswEKhyXh+7zpe1hOrlmce/7+eWO18a/gM2cjyVBLN7ZW26XaMImMRecuvuA6kXmoPfb8GQSnpe8c4EdYEbFLGL8EJaCr6eGjuLTwjfPLqOUcX4ZWleB+o5uMlnXV4gv9ZCAjLdkhr8LpDa4bv9OVEZAWfuPoDC6/R/vg1IxdThrNUchHC2qOfLRUBwcrILrTw4eVEOqtqjEi2JqePnX6KCXQmB4+qsNHdfiwDh/W4cM6fFgZIEhNwwoBjBpqGVYKFDWohmHlQOkvs11wOxTqdRVy1AxaVY5mKZBsltt34mOgWcTRLFMGE28S4cs6RKdoSvU6euRbCEQ2CufMJEC/aFFbkq99ZtAmnNS2pnqk+HUd3qZDxfpiCcOovi2Eu/SnGsM8G3whW4TT2lWqYwbVIJw3hVQ1TAl3aU7HCIAOvwh32tRHRGeKkRF9qTAOGd3oT3vI8Hp3upxoS4OiKw0KttTQhOOY4WVXRgU6yhu3CCSxoTykRUcvDhIW/ZQ3cZwyvO7HY2bVbbTOEVy/i8qLZv7W2BO2treqGbBnt2SBbf1WP3DLqafR2bxD6oexIxyuIdVc9jWvckuGbTBGw2w5FjWtg97qnfSYpQukNdWJ6PaLtpyJQA6QgCX/c8w5y6qXcidtORMBN2L9xMeL0N1mC/LOktcFlG+4rDgRN+Gg9Wrn2eUOy6IHFywsTr59SJV1dFF2Uw4TaElR6YQzrT7d2U93I2ymFliUN+dG+6M0nQ31N+JWbx3jgaUHzIxTlprsb7js0k0TcFFb4h9Flwsy0GZ386HFDTLpfCoBXIUfsLHRRvZYyTf4+ej8mvHDRrC10YZ2UN/gUvPsi6ujudHGuJOOCw1PxA3SA/oR3fa7+htonGv13n3LLk/r2wpm/SfV5HCjG+mAdjxm+axehLxgtSnYpisW+T1stuSWQwT8fsFTp1MNEbv1xMNfydj8mJh1pWY2U80Jrj02cXdqaqJZcCvracKHOqyjTG4ROzzVY9s4LD1D8O2xz5z0DMG3xz5eKDU+QzDvsfgMwbbH9LlGeoZgxWNL1g8lw3fwyMlWMuI7dphoBajCsK0cI0AVhm3lyEeNn7c1x4pQOWyrEKFy+FY/lu1LN4xfLlNS0yZTqmPapW85jReVMR61HT5WRSj0XV2LuRXNqSnpLHyY3PWYkanGsBa+2wOfpiScUFwDW09xmj/yEfPRK2GyJlrxvizMSjHGdXGnvHNrwqBU9+7w6E0xRk6Ce09pN8NnfPAMhqQYw5zwXunCbUlINSXUdKVTLlHIRznpSk9HKkzyGOLRaRsKQzrNxQpHMTHedpQTH1KUjGrq9NNyo1O9zAC43kJncshpU8eQN3ESPU3fW+lEp59mkZkOGQjfukYFuiCR6JK7FRce4wqPKZBmZlqzxXKhS44Y5rFctcfCwvvSLPNYGt+IZY+rBg4YTtvmGLJwOXrr9lk9vqxECzeaUXzKlbcseIx1uaXB0rNtFLp0u+XSY6orWUF8w+JzP579DYsfthDDN3AxevQBs3rDlUJ1E5fvuHjyNy7fcITAWI6eC+e6PBi4wYULjy0rHetRBmsO33CHUy4SgDsc/3rsG3OEyPAN9yi1DADuUWf5UEYarKs32gM8gQ2qDVJBNuG2Hgug3FEwefuGuiINkc3j28USkw2euZViwdOD35hkA5fH0Oho+Znrya1OpnosBLRnzaNLjymEpkcbDM2tx0YPdVmWujyM/sbrNpwGRhtYtuFCGGMNCYvkz+C5FjU+2NRW8aNvjwlJjDa2Ihik/kpwcsjM9BglIpdpBmh9mMyoEpsy/g6Qf1oM4+FjjELjmQEbtO6xf4wMWvfY8RtCigateyxEQ8Y9xpGiwfM3aN1jIRoy7jGOFA0a9xhSNNi+xxLonmzdYyEasu6xFA349piQokHjHvsbQDhSM4yHjykKdPwyaPwmnv8YCf7OFaQoQ//8C+rvBuGJ/+jfo2L5vUMiDh/KmwQZPt/vHZJw+FDexHn4zrsSUr7DhzInCYdPKbZEM94WFSk2Rpbx8CmirEWvb2KUELOMd+xDhZgl4+E7/x6JqmiyFs86ZBxlhvE+6RXionyHDxXiQtcWvimEiIyjECn4vmJWisg4OH4UInXS0Pjpuy5+cNJoU2J4czHj4KBhiv/QOLj4x98ABU8hfuC8yuSoa55xaXnYTc90dZnfynLe++j0x6HDSHAICsG3xziiS9RHjpcR/Se/MQkxjj+9/vP6z+s/r/+8/vP6z+s/r/+8pjIAAFZQOCAOGAAAkJsAnQEqAAKAAT5JJI9FoqIhkfiMkCgEhLS3cLr3IDkB21VeRmNvNvTz295XesV/u8F1/t/4kfpL5i/6r8c/1D6z/sz0vusDvrwWMSHm1D151k32Tf/v/AG+0f9P2A/y96sv+F/6P9R53PzL/TewL/Mv7R6Q/sF/eL2H/0+/+gxmfCoM+FQZ8Kgz4VBnwqDPhUGfCoM+FQZ8Kgz4VBnwqDPhUGfCoM+FQZ8Kgz4VBnwqDPhUGfCoM+FQZ8Kgz4VBnwqDPhUGfCoM+FQZ8Kgz4O+BSD75k9SA7hpG610FtUqIuP+DkDr0mNuuRxwVf0IfCKGHV9SKhxsxjKAYXkmjdKAru3qGVFbgtp0GfCoM+DvgUgJQStQYU9trI7gzorEE+u+boXt973325U7+hUsSRi7KAqP1z5u4e/OBwB/XcVr/FsWIPP+KvX0Qn28v5RJc2lawhIbXJrshFQGXvJc/yXwJzMFXK10Ee+IqaIVmB4CxmZRob07sZGCw0lPvZqsNSAwf8y6/DM3VABLrZqkUouFRWogS3tSnLUUG3g0T4wmlWsISFj26yEdv248ch4flCf2q8gNyMPFwb6G7tmRBv8Gljkuvrahu+yAulSM+h06lre3baCdmHezWD2gx/WBtPp+VT1gMV7NVCqQq6vyBkvd5ZbQXS/fOk65SEoQrgayqxnvtGiVSze/beGpY+VPUf3Gur+HFQmaUMqFNqsI018V0ISyh7mjW/jXjAs2IZ8RHYKOUjJvGcbIHj/Bump/zbDO90f2wTSrWEJCx+YpEvzfZFnDBbOVqO0+vExuOGSkZdDYu7p0QmF2npx4db178WrvdXZno1bNyRclIb2UvEf2h+vfdbABFe159hBVTcjBKO01/ogecC6QJlWp1shIqIzwfwZM4VBnMyRVWAKkZX/9ztE5Z4F5bpPTjJZAiJ/D7MKxkQKLJhQqxTShdx23hsDoMVjBRTxQ4Vs3z7KGXPom8+c8uAphHOouR2/6zI2jZ+mOLkAlPGGBQZ8Kgzh9pQLaozSFLdB6xT9/Hj9fITe325S1E2K/FVI2xRQO1wnSOuhtCT/6IJ3MOVira4+Sf9OhGXRzDbF++dL95+lHX8W1c3wuv9DCEYYz2y9jyIHlXjMDj+IoTMwQGrCDW+xablI+/WDThbwqBSn2ktFHiFEfmlmKMuvSl17iB8uNyaX750v3yzvGEICsZ+Nur3H9ZRSw4ceOhY3QDyDJkuvfyTTmD3RvQTj7FWGG3wDitxSdTG0RRKvYUGfCoM9xPr6ZF8fhhxWR9qJtNX0bmFwAxX+5wZ0rgsaCgj5R7ETCUqFtatA3KLQGj/GSPkyUmoymeRkgT/7E972NnSidEhti/fOl+vN3SSEqeMdAHBpl8nh8oYUkDTBgoM9yuw+udHasK3g+F1WAKFxiv3c0XF1hSSDQpLCEhti/fOl7UcmaLzx4jVniH37RKPEEAfSrWDwEf5y1Ry5DBFD+5Yx98SxDS/fOl++dL954YpGP7a/m4jUKSGYUGfClXIl9qO+SGsBz6PfwutYUGfCoM+FP97XmKY/wwIm9ErfYv3zl5aJ0Ua7jrFiTpfvnS/fOl++dL986X750v3zpfvnS/fOl++dL986X750v3zpfvnS/fOl++dL986X750v3zpfvnS/fOl++dL986TgAA/v6C+AAAAAAAAAAAABLfQ4yfpzngypkjxgMj45AeTIXL1+5kUf17bS4SAt/CocmExQEZVTB+p43C9isukm+Hc20HeXuHkN+Q9kJOiNbR8h9dRfn/at05bHcGeJD5UwTKWzi2EdZS1z8BVSGCEOPGL7veAU5CAlei8lIR/q8AiI30xQvz+3KvXIDGRXoeAsT0ggVQbt0pNJcP5TKqS6Yf4CE8LQzd+99Woj4ZUgWh19uWEhUX/TFstZ83BU3NP2wXxQOKTvgg7xRviJiwAEqyQ8LD5J/2KdfsEzzFUCUyncTR0ZnKHi8Sv8lD1z+tFCMgqJSGl9cbG9bqeWJfp7aVP7lgxLSHB6sNLFYlWiWNnXjCMZ7fjtM6ljM8xbUCrG0MDxC5fpTA1Sl0t1kyqsurjZ3biDNKanPb1Cr6Sj6wBjwyg0zHc8KpAzsu1i7qR5kdVN1IqQmxesuNHBAIyXlCnZTkRzXy55zc6+CN+rNY0HqIPO86vib9KgAF+gMgkfhQA7+F1hfkTNH3V0eK0ApjN8UrDzxw27TAc4saXTHUylyGhUihI5FlUS+NFoB1JWBycxD31mWb/4BifHTSDDz1dlEUwdVpnUjuBCybo2a2YG0rOSaYgcUeGAaPEw/DJ6qZJcQ5Hf2YutMKOs/HGpeGk0vq5z39/+cBea0XzHMKyOMiqkJoKR66YooJM4XTBVyyDz1PUIzdZuQcPFqXJQqnW+2qQ7FRJSCEBjkqSFbtvdLuVaJxBe1//OqJVM5S9Rov0Sg44U/FYgJ71HQOb2yh6sIOmmClcj1yn7fqVihrc+Tm5Zj31pQnmkE2fGrkiwcL6h4NYlVapOoxG7aRRojW3CqY8sJFq/lBDYpZx1TxPPN/uQ14kL+vj9vFgHD7Dc+rWqBqtX4wI+0ymBr15sMHZLXYdd2JTTsCtTgKeMs/8PEl5d3ymhxB095PwqCUFfjSo+goLnylazhTnfxPCoKIpZU+v1b9WPX9gnSemqwPjuxdlbeUd86jur5li/eFj/VVcy5rjkY+kKpl8D9QsBN6GzHNYXo92goYTKEATO3lMvC4rU/X1hE6BpCh30DApZvyXQCoru7aIF5OcmhhncRkX6OZbBJyTDQLpskqfs1tVx3geZq+M8AyrOv3Cs4SSTdY37/XEbf3bTjR15nKBeWA8DpMuxOvIQrpCESmjCp+cRqIkQQIk6CUrpxJIBvbWIvgiKJZAmagm5EqF59GjcpW6jz0DJZLpOa/uHPIPjC6zksqyxbKkOzYhbBgAE9VIdvEnXp5HpjfbU3r/w6r8SvyfarKfqUA5nmtq78NukAnRMiJ/LxPoNOBMpxWZSMzRv9vy3ypwirlnoD395pifU5O1meNIv4WLNK9UcFkv7BviFUEA44BAYD1wLmVvxTV91A0QgAc1z8eV/n3zV+RIFxxg7xaGxd3Ue2ma251mtbTOeRdrap7xVZR3lpQjn7melao/WgxcYqNbgoNUsssLzavxmANq3Nnq/km/Zb8mJdRiLp9GMcbzMUKQaENfzoRycPIAzwRrarnrNt5g4mIBEF2ZCljJsqhmpoaQSsrKlh4AOzVVAk58pNmTIDyzDAlVl2Gd6ktTD+qkPAlr61uQx7+/5iU1Fr+RWlrn9sZiJDlsaDTOwkjsN9XEsdnisfthF302tFgT/Iab8jiinOIO4yGBSqLqZ6vZ/3Ls4wFQr7O7z/ACx/YE+vwqIok9EJTSiY/8CWIOvB3XQK4crMHcaZWbPedCqYSqHewaNUt2RiJEqCKCXHWgRkeK4va8hn6OK7uEzHoTW7BI8x+jtglp+Ed8Xih4x/YJr06M8ky6/0FNus8i0xugh+ez8gNOuu9d62d5MNZnCjxIeL5OsjltEIPabv938Yh5Ue4pjr0TF5w8XaXoYOGc4p0a7UyTg+hydDDZI0HqWOUrqZlFoe61EOAstk/YNir3+MC6ZcfnToQ6U+oNgH6hU6W8ggYoQy144wpad66BdzQRpeVGOfSdHLl7qio8D1AU6sUONapepnNvUyeGyPpWtP/LbpeZnRyDlvzwUVQeRZKxY/YXyS+r0HZ8nAKoLWzKkligJAZ7uA2NP6lHszl889rsf8F3RUEvWVlkekLt/tz/iUvB04351s/8HyItMQrCEzsJvmmCZmaO9c1/gAxo0Wbog1BKgKyxDzxxvYIEuE2iF+LY9mIl0RXraWpdUiG+4fvfOP8OwAN68jCTOm9/l6diHZMWYIy2xxwsBRCso0eOpfDrZxWr+sdLTltxRae+GYnqgMV+W7XjNmmJtrdDwJpAq6KjIMKWOflP0LlbJ1f5JCKt3q2OcTCEI46pgTjH/6VaqfTotxwmeaABU0WP/GfzbRbjoAz8OYDSxSVqMktg9G5B7+rqaHp0Sjg/lhXSKNifys/h8ynGKomn7JfwLC4tpTb+CGUTLH7v7cIydZ4jGEgbyRk7Iw/rY3saUfBSZiV4J7FP6wXqaKh8WNrRYv0HZFant+8oaWvAS+DjdVXIgBpW4Eajt22HvA314MnVSodYqRjPNcMa04OdhFs5iloS/wojr5/ATOxeg5A1tdqyh+9lB44LOVZZqoeg1VYqe1RVbTkbOM3I8sQbrHL+8weyliQh3zWLEvFZ/bOrtECEi1BI6dxzNhvYCzZieszHMWxQsXiof0Arktj8NXObup+0/SNK0nzVg9nVz0Sy60HIatb6oKmo7S8lE7N6b0ywB9La7qZeN+SWkbj7N0ggtfdi2Lsdq4ijuhD8xplwtDh4B3uWK4GjMVS1ez1yCQm/Vpy3dq+JefezL+CS6gWr7icDqz3G8r1DhPuFfGXlkIiaDQg91bduxyalHQg3vJhYKG9SHDCNcnyaL/uReLXEcfCQy29EP3Xcqed1uq+1UVzYIrXc8vf77/f/xeb+0m3hpDpO24Fa6LpumUjuf0w/VV5/4RvgS8FeA8LumhwrQOAv57JjSRdn4zPcSDmVGX5lZpFDA4wBmKpXjZMTJ9p0dFG8Zh160x9SWdlq8FZpS5UQvmevaaRnlbPQDWauFSLt/mnJTGXPfWC6iw2DtNxzd/UUpc5IdP9GLsnewJr8182eKLYxeBhgoD1Ylu4vQaKgwLRqwnoMMQe3Rq7miahj+mdvtCuqsca8XnVWssGJvDKhk+plViy3FRLRoN7PEyGDprWvApPLpNpcjUJbtdCTF048FZiEww7S9ZcS+tXe5Xk9riX73Tnbwgl+eIC6HqzizlBXsKKfkC4z8uhGjwpObUqu3EdMEjRgk+hbIztFEXZHEfcNUUAKISwqHEyJgBdDcuRHHxWc1PG7HFs1UPVMpttEKc/G+4KRNOgxWn5CD09h+vyRusmC9y2cb1cSerkqWBywl00G9CoDktZefbFkGFcvrXAGxzFrjjFzguo2akElc714+PNvdK/1FlZ1ZOt43MwiSQSj01/w+Suu3acCdTxciY+moOr9d2za9MrLQmhPZnA3QUKwrnNmjo22nZFVrwesTbJGuG6SBTSceWlOwolAwyDH7keXEiE8vg+AL0d7pjwbBGb6elX0QvgfxcUV2h67ZPFeVygC28NeySBvaQKsfzGs5fMqUmsaKAPJKmJfzkdEjy7WOSUtkMuu5G5tvhcGN3NtADq4sue8AIiK115iDsBCDYtRdq55olNe2CEtWH+W9n1JKQ34TX+EUE29/30oRjD6MCziF2j9Fu//3r8pE10sRW5DNkj1Gdsjy9FblXVwcHwYIAwT+lYmKFxzXAL0qUth7bQc+XOoEeSjMZ5zOps4sMuDLsOh639J2mQq5SFVLQG3XlG99sb3CMslJ+MDx7jLKTTj2bnQbaiPjQnzfx8RlmlSsofGOi27XygNTpW7STiZMcZx+48I1pO4AKhWYhJjFTFzCv542h71O4mssezY5ZgsgDYmIDZ2ATZcf5plCjE5uaz285oOuU6U9xXSoFCRcErobXcLtg8CmkdX/6Cjlr/m+poRcOYxZi5u5s6+4K/uNAgI36al5AgX1tdWsAYCTiTH+tuZCeTVkEyZpoRaYKfPwwbRzhQ7akbs6xBvtBQw4ST0hASLsW9AX4FATg1FA+xT5XAA9AC7HpGbeN3D5f/fcexjojnhCSiz4JZJZlWrG74EPxeLkuvBEx7lOND1+D4Gx6my0FpeoOgLQAkfSXrenwocajLI1yP4/JUKuP8KsMfci0YYfFlhL4N1NAi/idDD77y1qvacFDcTX6fy1IzcFKaKJOTa0bf5cx/PDw2QO3LRzkxUEI2lRzcO7RX4ZUl7Y8vPgjjTBM31b1rbfAJn1St5ORPfO9xAqO4pgCq0Ap2/FOaDZ889lg/118E9JfC5EKN0MYPyWZL+MxD1hXFl1F/9WPZBHipoQxQsiIfFlSxfYnDc+cRVVw7xdd2t7IgqL0FpcaObsIjQ1xQnbYLl2A9KbuPiskDo/GBCvBuNeo41AHmblBPn6QV6iJ1BI7AOA7gykhhmfB3dCXK7pb8SsYCRKUs5B/IfnXVjnzhmrWbheXMVW8h5dOFc9Z8OOwQvNnHdTT8eKiow25cMZZvbxLgaZFnfW97CVXF6gJnjsanVKKuBC1xg1HBEn8sycrrUgNW5kCWCA9JnXy38nx6DCYxXXObdonS6rR7+mqce+NoumX2p4YUL3AY8aHZrFwBAlaDzemF8+uonPy9bJj7ehVjBlB3u8t76FPVHElifdQ7I6kroU4FAZ9USK+9RxqfBsry+Yo2Ts+XksC+hq7a/H03x5Ocj2ZczEk33Iu3Xhb3LMGmwknbo4ymRJzS1RSJoSL1dgmTv30NH//bD//8ySf//MhcVxB+SW4JC+jK9nwHAAGOETRD2aA2yWBpUXYz4vceGr15GAsiXdHV8mFO41eW4jjF4aW219Kt6tJqJDFmdtpVWTbeM7jfO+xfWXyEPIfL2L6g9At8gEgsALb65D2c9H8X8s+a3lhqaN/yZlvv7Twp+rbWZRSEIcal/ygRi2J06VW+ubwCOfsbUI8Pf4Nn17MOp4781RffDu48ofTdfrF9IQkZmXQnCfZQMvdIjFdm0QuTujsK+EX6apTIBHWfNJ8qfRjjOMkXmAHB8PGRvQA4aexptziWsohhvtkIqNF27jxdzGUthvXTx4rB1IDbcb60iv0nmSZIF8PhO32nBfkx6J9rW1F469pBsjyP+UZsvPLJ2Oqa4HyRBHumb4dAVb9FW2GTi7WoX0ebZm1c5ppH0c2+fJkdATGj6Ve6CqMG2Df8Ojh0N+cyR2nPL/Dx+4C6FFzYykZ/3kNfjiomMPK6J9UGxYWD/LtezLUt3bTaLfQNijwoj1Q6xBf0z+Sa1s+Iiij8Ct5S1xnVFudK/Y41gywg0RoN/FFWUzWhJY1FX2Drd8967nC3y4R/YG1gDr8gKTiTeglSeISTBxcq8X0Fxg1C1Crv7H0mZMrjjT99uAcqv/rwkGKAh91bNPo/u+hPgx/IgE+EkSsPfeHPRFJ29JTmSOeEgaNfEPu8/JVAq/nzDnjK2Rh/O6MfUY/F2k819qIMsjX+3hlNEG6m2EMON/w+BvHaTkUL+Ledtz+3BnCsI/T/qRg3Ud/7eHc2IXEKA3LEEz/dcUQOb1i2WCf/pI1RPL5E/GZOjkbrxVJZvSNrX0MQDghS8aTaZB4wZZiEtO4T5qCZ5YV2mJyPNBWyczSUqVO+omELlDGNHzX3qhTRbmv3FP87jHD2zQ2b6l8WKTux4NBUDzGk97jqL1mGWLEqJyAhaWxh+yoZfq9KEMqqI4gpFR1IWOWALCXvPGXR5FcUXQEfdCvuqxkC0sBqosyIp6eh6Dgyr0HgPrZhCcz/wOR31yO3BZdEj1L1gICB2iU9OjvdV7kyW9B2YeNrzpvLSbniZpizNHUqFhQ2wqkM4L0wcBBnKkujNMClCQOqYGew3t3QYPZUL5tp26lWQDLPOjCgVrJaTdPhSl6AcNugVoFYrAIpCCw07MpY/hsuu2QyPCz0hCtui64dwFzPac19MNCzQIRAth1nMqxSs9XNxrkhHcP7I1Q+ULFDkbKDbAPWdoRV6UuUZZvQ5E7tlFEorv+WjJN2+MUzTY1sdBcYeYOworWE0mjcS8UVZ3HenG/95ntKS8crleykn6hWdrixrUTm3qEso2kdXaMlCBZdnWwi0jSYGo7V7jJjQQ6T3irFyXQRWoXcozqXrhFoSNqVDpRoLT4W07K9+H6JZ803z/OLLgG2dN5iPlRdENbm3loKQ0VqVJLK4OpO5EGXm6UNvu9ISIdHXY9KRctmivHtl7WXecsCXfVHhDX8/Sttqh/07SFGrFK4e5+eI58dVEPo0uHLb0S9FtgbvuX6PnmQhOdniN0ue7bBl3YhFwjmXRyQqp6irZ9gY9HBRHkPgkAIlD8A14xz4rSKofAc0FPxTVXWqylnG3YbSk/arSIUUsCxWIEQzZ1ot1X7lQ/SQDIpv5WGESSHyUpNxTSGhHmP2piah/eiS4Z9L71hisl4PFZm104SjJ6QKXPqsbEmRzwZ6f6C5Ww90gXfmk+DMw1q50k2lj9ICrCCNIAAAAAAAAAAAAA=" x="-41.4151" y="-15.7447" width="82.8302" height="62.1227" preserveAspectRatio="xMidYMid meet"/>
           </g>
 <g id="scene-core">
             <ellipse class="scene-shadow" cy="27" rx="43" ry="22"/>
@@ -55,45 +40,77 @@
             <ellipse class="scene-core-light" cy="-29" rx="10" ry="6"/>
           </g>
   </defs>
-  <text class="heading" x="126" y="32">Navigation Models</text>
-  <text class="heading" x="694" y="32">Execution Backends</text>
+  <text class="heading" x="126" y="32">NAVIGATION MODELS</text>
+  <text class="heading" x="694" y="32">EXECUTION BACKENDS</text>
   <g transform="translate(16 62)">
     <g class="module custom">
                   <rect class="architecture-slot" x="8" y="8" width="88" height="64" rx="8"/>
                   <path class="architecture-extension" d="M52 29v22M41 40h22"/>
-                </g>
+
+    </g>
     <text x="52" y="112">Custom +</text>
   </g>
   <g transform="translate(132 62)">
-    <g class="module ">
+    <g class="module">
                   <rect class="architecture-slot" x="8" y="8" width="88" height="64" rx="8"/>
-                  <path class="scene-grid" d="m27 48 25 14 25-14M27 40l25 14 25-14"/>
-                  <path class="scene-top" d="m29 33 23-13 23 13-23 13Z"/>
-                  <path class="scene-side" d="M29 33v8l23 13 23-13v-8L52 46v8"/>
-                  <path class="scene-circuit" d="m41 33 11-6 11 6-11 6Z"/>
-                </g>
+                  <!-- 通用网络符号，不对应 LightNav 的实际层数或节点数。 -->
+                  <g class="architecture-network-links">
+                    <path d="M32 28 52 22 M32 28 52 34 M32 28 52 46 M32 28 52 58"/>
+                    <path d="M32 40 52 22 M32 40 52 34 M32 40 52 46 M32 40 52 58"/>
+                    <path d="M32 52 52 22 M32 52 52 34 M32 52 52 46 M32 52 52 58"/>
+                    <path d="M52 22 72 31 M52 22 72 49"/>
+                    <path d="M52 34 72 31 M52 34 72 49"/>
+                    <path d="M52 46 72 31 M52 46 72 49"/>
+                    <path d="M52 58 72 31 M52 58 72 49"/>
+                  </g>
+                  <g class="architecture-network-nodes">
+                    <circle cx="32" cy="28" r="3.5"/>
+                    <circle cx="32" cy="40" r="3.5"/>
+                    <circle cx="32" cy="52" r="3.5"/>
+                  </g>
+                  <g class="architecture-network-nodes architecture-network-hidden">
+                    <circle cx="52" cy="22" r="3.5"/>
+                    <circle cx="52" cy="34" r="3.5"/>
+                    <circle cx="52" cy="46" r="3.5"/>
+                    <circle cx="52" cy="58" r="3.5"/>
+                  </g>
+                  <g class="architecture-network-nodes">
+                    <circle cx="72" cy="31" r="3.5"/>
+                    <circle cx="72" cy="49" r="3.5"/>
+                  </g>
+
+    </g>
     <text x="52" y="112">LightNav</text>
   </g>
   <g transform="translate(526 62)">
-    <g class="module ">
+    <g class="module">
                   <rect class="architecture-slot" x="8" y="8" width="88" height="64" rx="8"/>
-                  <g transform="translate(52 38) scale(.6)"><use href="#scene-robot"/></g>
-                </g>
+                  <g transform="translate(52 30.7052) scale(0.860529)"><use href="#scene-robot"/></g>
+
+    </g>
     <text x="52" y="112">Quadruped</text>
   </g>
   <g transform="translate(642 62)">
-    <g class="module simulation">
+    <g class="module">
                   <rect class="architecture-slot" x="8" y="8" width="88" height="64" rx="8"/>
-                  <path class="scene-grid" d="m25 53 27-15 27 15-27 15ZM38 46l27 15M38 61l27-15"/>
-                  <g transform="translate(52 37) scale(.6)"><use href="#scene-robot"/></g>
-                </g>
+                  <ellipse class="scene-shadow" cx="52" cy="61" rx="24" ry="8"/>
+                  <g class="architecture-cart">
+                    <path class="architecture-cart-dark" d="M36 37a16 6 0 0 1 32 0l2 16a18 6 0 0 1-36 0Z"/>
+                    <path class="architecture-cart-rim" d="M32 34a20 7 0 0 0 40 0v4a20 7 0 0 1-40 0Z"/>
+                    <ellipse class="architecture-cart-disc" cx="52" cy="34" rx="20" ry="7"/>
+                    <path class="architecture-cart-dark" d="M45 22.5a7 3.5 0 0 0 14 0v6.5a7 3.5 0 0 1-14 0Z"/>
+                    <ellipse class="architecture-cart-dark" cx="52" cy="22.5" rx="7" ry="3.5"/>
+                  </g>
+
+    </g>
     <text x="52" y="112">MuJoCo · Sim</text>
   </g>
   <g transform="translate(758 62)">
     <g class="module custom">
                   <rect class="architecture-slot" x="8" y="8" width="88" height="64" rx="8"/>
                   <path class="architecture-extension" d="M52 29v22M41 40h22"/>
-                </g>
+
+    </g>
     <text x="52" y="112">Custom +</text>
   </g>
   <path class="joint" d="M239 108H338"/>
