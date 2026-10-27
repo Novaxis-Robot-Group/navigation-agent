@@ -14,10 +14,10 @@ Navigation Agent 根据自然语言目标，自主观察、探索并导航到目
 
 <p align="center">
   <a href="https://novaxis-robot-group.github.io/navigation-agent-site/#architecture">
-    <img src="docs/assets/architecture.svg" width="80%" alt="官网工程架构图：统一 Agent，导航模型与本体独立适配">
+    <img src="docs/assets/architecture.svg" width="80%" alt="官网工程架构图：统一 Agent，导航模型与执行后端独立适配">
   </a>
 </p>
-<p align="center"><sub>同一套 Agent，独立适配导航模型与本体。虚线表示待实现和验证的扩展点。</sub><br>
+<p align="center"><sub>同一套 Agent，独立适配导航模型与执行后端。虚线表示待实现和验证的扩展点。</sub><br>
   <a href="https://novaxis-robot-group.github.io/navigation-agent-site/">项目官网 →</a>
 </p>
 

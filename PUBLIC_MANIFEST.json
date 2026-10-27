@@ -31,11 +31,11 @@
     },
     "README.md": {
       "mode": "100644",
-      "sha256": "80258af449892de32a3bbbbe2f64d3db5ce39822761757f488214d83c1bc0184"
+      "sha256": "602af6e778d123d2cb7987bbcbac82422ade5f6e759ef73a82c18b2d0335eed1"
     },
     "README.zh-CN.md": {
       "mode": "100644",
-      "sha256": "1971a8ecfb460dfc27d260895dc5532e412d0876c73b95ec44b365abb9dfcfb6"
+      "sha256": "2b9fd869011689c0a8399dcf97dea3e093e54b756c417e82a684e8ebcc069fc4"
     },
     "THIRD_PARTY_NOTICES.md": {
       "mode": "100644",
@@ -223,7 +223,7 @@
     },
     "docs/assets/architecture.svg": {
       "mode": "100644",
-      "sha256": "e19e787279f9a5026b3c82caa6bec671f5b2e1203b78db679a245be528c2c2b1"
+      "sha256": "0af9cd978fc3029c30a60a9f2937fc7eaa8dae174e1fcec988da6fdd4bd489e3"
     },
     "docs/en/configuration.md": {
       "mode": "100644",

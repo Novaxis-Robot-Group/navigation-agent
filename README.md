@@ -14,10 +14,10 @@ Start with a ready-to-run MuJoCo scene, then explore deployment on your robot.
 
 <p align="center">
   <a href="https://novaxis-robot-group.github.io/navigation-agent-site/#architecture">
-    <img src="docs/assets/architecture.svg" width="80%" alt="Navigation Agent architecture: one Agent with independent navigation model and robot adapters">
+    <img src="docs/assets/architecture.svg" width="80%" alt="Navigation Agent architecture: one Agent with independent navigation model and execution backend adapters">
   </a>
 </p>
-<p align="center"><sub>One Agent, independent model and robot adapters. Dashed components are planned extensions.</sub><br>
+<p align="center"><sub>One Agent, independent navigation model and execution backend adapters. Dashed components are planned extensions.</sub><br>
   <a href="https://novaxis-robot-group.github.io/navigation-agent-site/">Website →</a>
 </p>
 

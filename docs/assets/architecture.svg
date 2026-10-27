@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="878" height="204" viewBox="0 0 878 204" role="img" aria-labelledby="title description">
   <title id="title">Navigation Agent 工程架构</title>
-  <desc id="description">统一 Agent 连接独立的导航模型与本体适配器。内置 LightNav、Go2 和 MuJoCo；虚线 Custom 插槽表示待实现和验证的扩展点，连线不表示执行顺序。</desc>
+  <desc id="description">统一 Agent 连接独立的导航模型与执行后端适配器。内置 LightNav、Go2 和 MuJoCo；虚线 Custom 插槽表示待实现和验证的扩展点，连线不表示执行顺序。</desc>
   <!-- 复用官网原始 SVG 图形：https://novaxis-robot-group.github.io/navigation-agent-site/#architecture；仅调整静态布局、字号与主题配色。 -->
   <style>
     text { font-family: Arial, Helvetica, sans-serif; text-anchor: middle; fill: #465550; font-size: 16px; }
@@ -55,8 +55,8 @@
             <ellipse class="scene-core-light" cy="-29" rx="10" ry="6"/>
           </g>
   </defs>
-  <text class="heading" x="126" y="32">VLN</text>
-  <text class="heading" x="694" y="32">EMBODIMENT</text>
+  <text class="heading" x="126" y="32">Navigation Models</text>
+  <text class="heading" x="694" y="32">Execution Backends</text>
   <g transform="translate(16 62)">
     <g class="module custom">
                   <rect class="architecture-slot" x="8" y="8" width="88" height="64" rx="8"/>
@@ -79,7 +79,7 @@
                   <rect class="architecture-slot" x="8" y="8" width="88" height="64" rx="8"/>
                   <g transform="translate(52 38) scale(.6)"><use href="#scene-robot"/></g>
                 </g>
-    <text x="52" y="112">Go2</text>
+    <text x="52" y="112">Quadruped</text>
   </g>
   <g transform="translate(642 62)">
     <g class="module simulation">
@@ -87,7 +87,7 @@
                   <path class="scene-grid" d="m25 53 27-15 27 15-27 15ZM38 46l27 15M38 61l27-15"/>
                   <g transform="translate(52 37) scale(.6)"><use href="#scene-robot"/></g>
                 </g>
-    <text x="52" y="112">MuJoCo</text>
+    <text x="52" y="112">MuJoCo · Sim</text>
   </g>
   <g transform="translate(758 62)">
     <g class="module custom">
